@@ -25,6 +25,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+
     protected $fillable = [
         'name',
         'email',
@@ -63,5 +65,25 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class, 'userID');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'userID');
+    }
+
+    public function budgets()
+    {
+        return $this->hasMany(Budget::class, 'userID');
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class, 'userID');
     }
 }
