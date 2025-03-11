@@ -18,7 +18,7 @@ Route::middleware([
 
 
 Route::get('/test',function(){
-return view('frontend.layout.mainLayout');
+return view('frontend.layout.index');
 });
 Route::resource('expenses', ExpenseController::class);
 Route::resource('category', CategoryController::class);

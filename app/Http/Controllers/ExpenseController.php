@@ -11,12 +11,12 @@ class ExpenseController extends Controller
     public function index()
     {
         $expenses = Expense::with('user')->get();
-        return view('expenses.index', compact('expenses'));
+        return view('frontend.dashboard.expenses.index', compact('expenses'));
     }
 
     public function create()
     {
-        return view('expenses.create');
+        return view('frontend.dashboard.expenses.create');
     }
 
     public function store(Request $request)
@@ -34,12 +34,12 @@ class ExpenseController extends Controller
             'description' => $request->description,
         ]);
 
-        return redirect()->route('expenses.index')->with('success', 'Expense added successfully.');
+        return redirect()->route('frontend.dashboard.expenses.index')->with('success', 'Expense added successfully.');
     }
 
     public function edit(Expense $expense)
     {
-        return view('expenses.edit', compact('expense'));
+        return view('frontend.dashboard.expenses.edit', compact('expense'));
     }
 
     public function update(Request $request, Expense $expense)
@@ -52,17 +52,17 @@ class ExpenseController extends Controller
 
         $expense->update($request->all());
 
-        return redirect()->route('expenses.index')->with('success', 'Expense updated successfully.');
+        return redirect()->route('frontend.dashboard.expenses.index')->with('success', 'Expense updated successfully.');
     }
 
     public function destroy(Expense $expense)
     {
         $expense->delete();
-        return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully.');
+        return redirect()->route('frontend.dashboard.expenses.index')->with('success', 'Expense deleted successfully.');
     }
     public function show(Expense $expense)
     {
-        return view('expenses.show', compact('expense'));
+        return view('frontend.dashboard.expenses.show', compact('expense'));
     }
 
 }

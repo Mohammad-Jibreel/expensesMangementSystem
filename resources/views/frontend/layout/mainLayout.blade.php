@@ -42,7 +42,12 @@
 
         @include('frontend.layout.header')
         @include('frontend.layout.aside')
+        <div class="main-content">
+            <div class="container-fluid">
+
        @yield('content')
+
+        </div>
 
     </div>
     <!-- Jquery JS-->
