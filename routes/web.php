@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ExpenseController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -15,3 +15,12 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+
+Route::get('/test',function(){
+return view('frontend.layout.mainLayout');
+});
+Route::resource('expenses', ExpenseController::class);
+Route::resource('category', CategoryController::class);
+Route::resource('report', ReportController::class);
+Route::resource('budget', BudgetController::class);
