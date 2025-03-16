@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Report extends Model
 {
     protected $fillable = ['userID', 'totalExpenses', 'totalIncome', 'netBalance', 'startDate', 'endDate'];
+    protected $primaryKey = 'reportID';
 
     public function user()
     {

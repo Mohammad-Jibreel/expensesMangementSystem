@@ -8,12 +8,19 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $categories = Category::paginate(10); // Adding pagination
+
+        return view('dashboard.Category.index', compact('categories'));
     }
 
     /**
@@ -21,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.Category.create');
     }
 
     /**
@@ -29,7 +36,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'categoryName' => 'required|string|max:255',
+        ]);
+
+        Category::create([
+            'categoryName' => $request->categoryName,
+        ]);
+
+        return redirect()->route('category.index')->with('success', 'Category created successfully.');
     }
 
     /**
@@ -37,7 +52,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return view('dashboard.Category.show', compact('category'));
     }
 
     /**
@@ -45,7 +60,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('dashboard.category.edit', compact('category'));
     }
 
     /**
@@ -53,7 +68,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'categoryName' => 'required|string|max:255',
+        ]);
+
+        $category->update([
+            'categoryName' => $request->categoryName,
+        ]);
+
+        return redirect()->route('category.index')->with('success', 'Category updated successfully.');
     }
 
     /**
@@ -61,6 +84,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return redirect()->route('category.index')->with('success', 'Category deleted successfully.');
     }
 }

@@ -1,5 +1,5 @@
 
-@extends('frontend.layout.mainLayout')
+@extends('layouts.mainLayout')
 @section('content')
 <div class="page-container">
     <!-- HEADER DESKTOP-->

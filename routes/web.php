@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\CategoryController;
+
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -32,7 +36,7 @@ Route::get('/', function () {
 
 
 Route::get('/test',function(){
-return view('frontend.layout.index');
+return view('layouts.index');
 })->middleware([
     'auth','verified'
 ]);
@@ -49,4 +53,6 @@ Route::middleware(['auth', 'verified'])->get('/home', function () {
 Route::resource('expenses', ExpenseController::class);
 Route::resource('category', CategoryController::class);
 Route::resource('report', ReportController::class);
-Route::resource('budget', BudgetController::class);
+Route::resource('budgets', BudgetController::class);
+Route::get('/reports/export/{id}/{format}', [ReportController::class, 'export'])->name('reports.export');
+Route::get('/reports/export/all/{format}', [ReportController::class, 'exportAll'])->name('reports.export.all');

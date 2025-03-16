@@ -14,21 +14,29 @@
 
                 </li>
                 <li>
-                    <a href="chart.html">
+                    <a href="{{route('expenses.index')}}">
                         <i class="fas fa-money-bill-wave"></i>
                         Expenses </a>
                 </li>
                 <li>
-                    <a href="table.html">
+                    <a href="{{route('budgets.index')}}">
                         <i class="fas fa-wallet"></i>
-                        Income </a>
+                        Budgets </a>
                 </li>
+
                 <li>
-                    <a href="form.html">
+                    <a href="{{ route('category.index') }}">
+                        <i class="fas fa-folder"></i>
+                        Category
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{route('report.index')}}">
                         <i class="fas fa-chart-line"></i>Reports </a>
                 </li>
                 <li>
-                    <a href="calendar.html">
+                    <a href="#">
                         <i class="fas fa-cog"></i>Settings </a>
                 </li>
                 <li>
