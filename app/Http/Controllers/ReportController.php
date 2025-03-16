@@ -124,7 +124,6 @@ class ReportController extends Controller
 
     public function exportAll($format)
     {
-        dd($format);
         $reports = Report::all();
 
         if ($format == 'csv') {
