@@ -10,6 +10,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\ChallengeController;
+use App\Http\Controllers\RewardController;
+use App\Http\Controllers\GroupExpenseController;
+use App\Http\Controllers\GroupMemberController;
+use App\Http\Controllers\GroupController;
 
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -56,3 +61,8 @@ Route::resource('report', ReportController::class);
 Route::resource('budgets', BudgetController::class);
 Route::get('/reports/export/{id}/{format}', [ReportController::class, 'export'])->name('reports.export');
 Route::get('/reports/export/all/{format}', [ReportController::class, 'exportAll'])->name('reports.export.all');
+Route::resource('groups', GroupController::class);
+Route::resource('group-members', GroupMemberController::class);
+Route::resource('group-expenses', GroupExpenseController::class);
+Route::resource('rewards', RewardController::class);
+Route::resource('challenges', ChallengeController::class);

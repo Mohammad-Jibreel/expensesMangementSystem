@@ -7,6 +7,7 @@
             <div class="card shadow-lg rounded-lg border-0">
                 <div class="card-header text-center bg-primary text-white rounded-top">
                     <h4>{{ __('Login') }}</h4>
+
                 </div>
 
                 <div class="card-body">

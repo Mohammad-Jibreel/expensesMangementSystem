@@ -20,6 +20,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+            $table->foreignId('owner_id')->nullable()->constrained('users'); // Add the owner_id field and make it nullable
             $table->timestamps();
         });
 
@@ -47,5 +48,8 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('owner_id'); // Drop the column if rolled back
+        });
     }
 };

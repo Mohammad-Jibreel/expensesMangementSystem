@@ -35,6 +35,28 @@
                     <a href="{{route('report.index')}}">
                         <i class="fas fa-chart-line"></i>Reports </a>
                 </li>
+
+                <li>
+                    <a href="{{ route('groups.index') }}">
+                        <i class="fas fa-users"></i> Groups
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('group-expenses.index') }}">
+                        <i class="fas fa-money-bill-wave"></i> Group Expenses
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('group-members.index') }}">
+                        <i class="fas fa-user-friends"></i> Group Members
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('rewards.index') }}">
+                        <i class="fas fa-trophy"></i> Rewards
+                    </a>
+                </li>
+
                 <li>
                     <a href="#">
                         <i class="fas fa-cog"></i>Settings </a>
