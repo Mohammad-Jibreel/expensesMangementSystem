@@ -12,6 +12,7 @@
 
     <!-- Title Page-->
     <title>Dashboard</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Fontfaces CSS-->
     <link href="{{ asset('css/font-face.css') }}" rel="stylesheet" media="all">
@@ -75,6 +76,7 @@
     <script src="{{ asset('vendor/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('vendor/chartjs/Chart.bundle.min.js') }}"></script>
     <script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('js/speechRecognition.js') }}"></script>
 
     <!-- Main JS-->
     <script src="{{ asset('js/main.js') }}"></script>

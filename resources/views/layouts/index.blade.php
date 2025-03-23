@@ -417,7 +417,7 @@
                                                 <div class="au-message__item-text">
                                                     <div class="avatar-wrap online">
                                                         <div class="avatar">
-                                                            <img src="images/icon/avatar-04.jpg" alt="Michelle Sims">
+                                                            <img src="{{asset('images/icon/avatar-04.jpg')}}" alt="Michelle Sims">
                                                         </div>
                                                     </div>
                                                     <div class="text">
@@ -435,7 +435,7 @@
                                                 <div class="au-message__item-text">
                                                     <div class="avatar-wrap">
                                                         <div class="avatar">
-                                                            <img src="images/icon/avatar-05.jpg" alt="Michelle Sims">
+                                                            <img src="{{asset('images/icon/avatar-05.jpg')}}" alt="Michelle Sims">
                                                         </div>
                                                     </div>
                                                     <div class="text">
@@ -453,7 +453,7 @@
                                                 <div class="au-message__item-text">
                                                     <div class="avatar-wrap online">
                                                         <div class="avatar">
-                                                            <img src="images/icon/avatar-04.jpg" alt="Michelle Sims">
+                                                            <img src="{{asset('images/icon/avatar-04.jpg')}}" alt="Michelle Sims">
                                                         </div>
                                                     </div>
                                                     <div class="text">
@@ -471,7 +471,7 @@
                                                 <div class="au-message__item-text">
                                                     <div class="avatar-wrap">
                                                         <div class="avatar">
-                                                            <img src="images/icon/avatar-05.jpg" alt="Michelle Sims">
+                                                            <img src="{{asset('images/icon/avatar-05.jpg')}}" alt="Michelle Sims">
                                                         </div>
                                                     </div>
                                                     <div class="text">
@@ -494,7 +494,7 @@
                                         <div class="au-chat-info">
                                             <div class="avatar-wrap online">
                                                 <div class="avatar avatar--small">
-                                                    <img src="images/icon/avatar-02.jpg" alt="John Smith">
+                                                    <img src="{{asset('images/icon/avatar-02.jpg')}}" alt="John Smith">
                                                 </div>
                                             </div>
                                             <span class="nick">

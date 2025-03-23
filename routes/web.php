@@ -15,6 +15,7 @@ use App\Http\Controllers\RewardController;
 use App\Http\Controllers\GroupExpenseController;
 use App\Http\Controllers\GroupMemberController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\SavingGoalController;
 
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -66,3 +67,27 @@ Route::resource('group-members', GroupMemberController::class);
 Route::resource('group-expenses', GroupExpenseController::class);
 Route::resource('rewards', RewardController::class);
 Route::resource('challenges', ChallengeController::class);
+Route::post('/add-expense', function (Request $request) {
+    $text = $request->input('text');
+
+    // تحليل الجملة واستخراج البيانات (المبلغ، الفئة)
+    preg_match('/(\d+)\s*ريال.*(المطعم|السوق|البقالة|المقهى)/u', $text, $matches);
+
+    if (count($matches) >= 3) {
+        $amount = $matches[1];  // المبلغ
+        $category = $matches[2]; // الفئة
+
+        // إضافة المصروف لقاعدة البيانات
+        Expense::create([
+            'amount' => $amount,
+            'category' => $category,
+            'user_id' => auth()->id() ?? 1 // تأكد من استخدام نظام تسجيل الدخول
+        ]);
+
+        return response()->json(['message' => "تمت إضافة مصروف $amount ريال في فئة $category"]);
+    }
+
+    return response()->json(['message' => "تعذر فهم الجملة"], 400);
+});
+Route::resource('savings', SavingGoalController::class);
+Route::get('/update-savings', [SavingGoalController::class, 'updateSavings'])->name('savings.update');

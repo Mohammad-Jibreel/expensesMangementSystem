@@ -101,6 +101,10 @@
     </style>
 </head>
 <body>
+
+
+
+
     <div id="app">
         <!-- Navbar -->
         <nav class="navbar navbar-expand-md navbar-light">
@@ -157,6 +161,11 @@
 
         <!-- Main Content -->
         <main class="main-content py-4">
+            @foreach(auth()->user()->notifications as $notification)
+            <div class="bg-green-200 text-green-700 p-3 rounded mb-2">
+                {{ $notification->data['message'] }}
+            </div>
+        @endforeach
             @yield('content')
         </main>
     </div>

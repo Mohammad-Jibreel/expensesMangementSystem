@@ -5,6 +5,10 @@
     <h2>Add Expense</h2>
     <form action="{{ route('expenses.store') }}" method="POST">
         @csrf
+
+
+
+
         <div class="mb-3">
             <label class="form-label">Amount</label>
             <input type="number" name="amount" class="form-control" required>
