@@ -80,4 +80,17 @@ class BudgetController extends Controller
             return redirect()->route('budgets.index')->withErrors('You are not authorized to access this budget.');
         }
     }
+
+    public function remaingBudget() {
+        $budget = Budget::where('user_id', auth()->id())
+                ->where('category_id', $categoryId)
+                ->first();
+
+$expenses = Expense::where('user_id', auth()->id())
+                   ->where('category_id', $categoryId)
+                   ->sum('amount');
+
+$remainingBudget = $budget->amount - $expenses;  // How much is left in the budget
+
+    }
 }

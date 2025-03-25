@@ -46,11 +46,7 @@
                         <i class="fas fa-money-bill-wave"></i> Group Expenses
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('group-members.index') }}">
-                        <i class="fas fa-user-friends"></i> Group Members
-                    </a>
-                </li>
+
                 <li>
                     <a href="{{ route('rewards.index') }}">
                         <i class="fas fa-trophy"></i> Rewards

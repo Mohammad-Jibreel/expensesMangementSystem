@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id('transactionID');
-            $table->foreignId('userID')->constrained('users');
-            $table->date('transactionDate');
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');  // Correct foreign key setup
+            $table->date('transaction_date');
             $table->double('amount');
             $table->string('method');
             $table->timestamps();
+
         });
     }
 

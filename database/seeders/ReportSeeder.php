@@ -21,12 +21,12 @@ class ReportSeeder extends Seeder
         // Generate 5 random reports for users
         foreach (range(1, 5) as $index) {
             Report::create([
-                'userID' => User::inRandomOrder()->first()->id, // Get a random user ID
-                'totalExpenses' => $faker->randomFloat(2, 50, 1000),
-                'totalIncome' => $faker->randomFloat(2, 100, 2000),
-                'netBalance' => $faker->randomFloat(2, 50, 1500),
-                'startDate' => $faker->date(),
-                'endDate' => $faker->date(),
+                'user_id' => User::inRandomOrder()->first()->id, // Get a random user ID
+                'total_expenses' => $faker->randomFloat(2, 50, 1000),
+                'total_income' => $faker->randomFloat(2, 100, 2000),
+                'net_balance' => $faker->randomFloat(2, 50, 1500),
+                'start_date' => $faker->date(),
+                'end_date' => $faker->date(),
             ]);
         }
     }

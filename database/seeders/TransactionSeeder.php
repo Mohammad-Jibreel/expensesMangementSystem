@@ -19,8 +19,8 @@ class TransactionSeeder extends Seeder
         // Generate 20 random transactions
         foreach (range(1, 20) as $index) {
             Transaction::create([
-                'userID' => 1, // Assigning to the first user, change as needed
-                'transactionDate' => $faker->date(),
+                'user_id' => 1, // Assigning to the first user, change as needed
+                'transaction_date' => $faker->date(),
                 'amount' => $faker->randomFloat(2, 10, 500),
                 'method' => $faker->randomElement(['cash', 'credit card', 'bank transfer']),
             ]);

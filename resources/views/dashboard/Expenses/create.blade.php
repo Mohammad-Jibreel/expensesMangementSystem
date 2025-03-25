@@ -21,6 +21,16 @@
             <label class="form-label">Description</label>
             <input type="text" name="description" class="form-control" required>
         </div>
+        <div class="form-group">
+            <label for="category_id">Category</label>
+            <select name="category_id" class="form-control" required>
+                @foreach($categories as $category)
+                <option value="{{ $category->id }}" >
+                    {{ $category->categoryName }}
+                </option>
+                @endforeach
+            </select>
+        </div>
         <button type="submit" class="btn btn-success">Add Expense</button>
     </form>
 </div>

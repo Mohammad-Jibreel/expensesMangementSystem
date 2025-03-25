@@ -19,10 +19,10 @@ class BudgetSeeder extends Seeder
         // Generate 5 random budgets for users
         foreach (range(1, 5) as $index) {
             Budget::create([
-                'userID' => 1, // Assigning to the first user, change as needed
+                'user_id' => 1, // Assigning to the first user, change as needed
                 'limit' => $faker->randomFloat(2, 100, 5000),
-                'startDate' => $faker->date(),
-                'endDate' => $faker->date(),
+                'start_date' => $faker->date(),
+                'end_date' => $faker->date(),
             ]);
         }
     }

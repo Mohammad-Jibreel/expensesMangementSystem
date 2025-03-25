@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('group_expenses', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users'); // Who added the expense
-            $table->double('amount');
-            $table->string('description');
-            $table->timestamps();
+            $table->id(); // Creates an auto-incrementing primary key named 'id'
+            $table->unsignedBigInteger('user_id'); // Foreign key for users
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // Ensure table name is plural
+
+            $table->double('amount'); // Column for the expense amount
+            $table->date('date'); // Column for the date of the expense
+            $table->string('description'); // Column for a description of the expense
+            $table->timestamps(); // Creates created_at and updated_at timestamp columns
         });
     }
 

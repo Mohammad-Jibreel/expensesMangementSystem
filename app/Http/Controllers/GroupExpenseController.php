@@ -28,7 +28,6 @@ class GroupExpenseController extends Controller
     {
         $request->validate([
             'group_id' => 'required|exists:groups,id',
-            'user_id' => 'required|exists:users,id',
             'amount' => 'required|numeric',
             'description' => 'nullable|string'
         ]);
@@ -44,8 +43,10 @@ class GroupExpenseController extends Controller
 
     public function edit(GroupExpense $groupExpense)
     {
-        return view('dashboard.GroupExpense.edit', compact('groupExpense'));
+        $groups = Group::all(); // Get all groups
+        return view('dashboard.GroupExpense.edit', compact('groupExpense', 'groups'));
     }
+
 
     public function update(Request $request, GroupExpense $groupExpense)
     {

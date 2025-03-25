@@ -8,10 +8,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Reward extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'reward_name', 'points'];
+
+    protected $fillable = [
+        'user_id',
+        'reward_name',
+        'points',
+    ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 }

@@ -31,18 +31,21 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Amount</th>
             <th>Date</th>
+            <th>Category</th>
+            <th>Amount</th>
             <th>Description</th>
             <th>Actions</th>
+
         </tr>
     </thead>
     <tbody>
         @foreach($expenses as $expense)
         <tr>
-            <td>{{ $expense->expenseID }}</td>
-            <td>${{ number_format($expense->amount, 2) }}</td>
+            <td>{{ $expense->expenseID + 1 }}</td>
             <td>{{ $expense->date }}</td>
+            <td>{{ $expense->category->categoryName }}</td>
+            <td>${{ number_format($expense->amount, 2) }}</td>
             <td>{{ $expense->description }}</td>
             <td>
 

@@ -6,12 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
 {
-    protected $primaryKey = 'expenseID';
-    protected $fillable = ['expenseID','userID', 'amount', 'date', 'description'];
+    protected $fillable = [
+        'user_id',
+        'category_id',
+        'amount',
+        'date',
+        'description',
+    ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'userID');
+        return $this->belongsTo(User::class);
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
 
 }

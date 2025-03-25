@@ -5,21 +5,12 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens;
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory;
-    use HasProfilePhoto;
-    use Notifiable;
-    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -70,21 +61,47 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function expenses()
     {
-        return $this->hasMany(Expense::class, 'userID');
+        return $this->hasMany(Expense::class);
     }
 
     public function transactions()
     {
-        return $this->hasMany(Transaction::class, 'userID');
+        return $this->hasMany(Transaction::class);
     }
 
     public function budgets()
     {
-        return $this->hasMany(Budget::class, 'userID');
+        return $this->hasMany(Budget::class);
     }
 
     public function reports()
     {
-        return $this->hasMany(Report::class, 'userID');
+        return $this->hasMany(Report::class);
     }
+
+    public function savingGoals()
+    {
+        return $this->hasMany(SavingGoal::class);
+    }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_members');
+    }
+
+    public function groupExpenses()
+    {
+        return $this->hasMany(GroupExpense::class);
+    }
+
+    public function rewards()
+    {
+        return $this->hasMany(Reward::class);
+    }
+
+    public function challenges()
+    {
+        return $this->hasMany(Challenge::class);
+    }
+
 }

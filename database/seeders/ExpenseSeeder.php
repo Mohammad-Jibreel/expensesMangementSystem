@@ -16,7 +16,7 @@ class ExpenseSeeder extends Seeder
         // Generate 5 random expenses for users
         foreach (range(1, 5) as $index) {
             Expense::create([
-                'userID' => 1, // Assigning to the first user, change as needed
+                'user_id' => 1, // Assigning to the first user, change as needed
                 'amount' => $faker->randomFloat(2, 10, 1000),
                 'date' => $faker->date(),
                 'description' => $faker->sentence(),

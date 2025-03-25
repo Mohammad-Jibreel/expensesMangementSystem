@@ -15,12 +15,12 @@ class GroupSeeder extends Seeder
     {
         Group::create([
             'group_name' => 'Friends Savings',
-            'owner_id' => 1, // Assuming User ID 1 exists
+            'id' => 1, // Assuming User ID 1 exists
         ]);
 
         Group::create([
             'group_name' => 'Family Budget',
-            'owner_id' => 2, // Assuming User ID 2 exists
+            'id' => 2, // Assuming User ID 2 exists
         ]);
     }
 }

@@ -27,6 +27,8 @@
             </select>
         </div>
 
+        <input type="number" hidden name="user_id" id="user_id" value={{ Auth::user()->id }} class="form-control">
+
         <button type="submit" class="btn btn-primary mt-3">Save Expense</button>
     </form>
 </div>

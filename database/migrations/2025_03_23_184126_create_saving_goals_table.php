@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('saving_goals', function (Blueprint $table) {
             $table->id();
-        $table->unsignedBigInteger('user_id');
-        $table->decimal('target_amount', 10, 2);
-        $table->decimal('saved_amount', 10, 2)->default(0);
-        $table->string('duration');
-        $table->timestamp('start_date')->useCurrent();
-        $table->timestamp('end_date')->nullable();
-        $table->timestamps();
-        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->decimal('target_amount', 10, 2);
+            $table->decimal('saved_amount', 10, 2)->default(0);
+            $table->string('duration');
+            $table->timestamp('start_date')->useCurrent();
+            $table->timestamp('end_date')->nullable();
+            $table->timestamps();
         });
     }
 

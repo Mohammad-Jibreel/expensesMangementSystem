@@ -20,9 +20,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Admin User',
             'email' => 'admin_' . $faker->unique()->safeEmail, // Ensures a unique admin email
-            'password' => Hash::make('password123'),
-            'current_team_id' => null,
-            'profile_photo_path' => null,
+            'password' => Hash::make('password123')
         ]);
 
         // Generate 10 random users
@@ -30,9 +28,7 @@ class UserSeeder extends Seeder
             User::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail, // Faker will create unique emails
-                'password' => Hash::make('password'),
-                'current_team_id' => null,
-                'profile_photo_path' => $faker->imageUrl,
+                'password' => Hash::make('password')
             ]);
         }
     }

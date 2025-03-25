@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('rewards', function (Blueprint $table) {
             $table->id();
-    $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-    $table->string('reward_name');
-    $table->integer('points');
-    $table->timestamps();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('reward_name');
+            $table->integer('points');
+            $table->timestamps();
         });
     }
 

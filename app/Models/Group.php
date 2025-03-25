@@ -8,20 +8,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Group extends Model
 {
     use HasFactory;
-    protected $fillable = ['group_name', 'owner_id'];
+
+    protected $fillable = [
+        'group_name',
+    ];
 
     public function members()
     {
-        return $this->hasMany(GroupMember::class, 'group_id');
+        return $this->belongsToMany(User::class, 'group_members');
     }
 
     public function expenses()
     {
-        return $this->hasMany(GroupExpense::class, 'group_id');
+        return $this->hasMany(GroupExpense::class);
     }
 
-    public function owner()
-    {
-        return $this->belongsTo(User::class, 'owner_id');
-    }
 }

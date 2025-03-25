@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reports', function (Blueprint $table) {
-            $table->id('reportID');
-            $table->foreignId('userID')->constrained('users');
-            $table->double('totalExpenses');
-            $table->double('totalIncome');
-            $table->double('netBalance');
-            $table->date('startDate');
-            $table->date('endDate');
-            $table->timestamps();
+            $table->id();
+        $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+        $table->double('total_expenses');
+        $table->double('total_income');
+        $table->double('net_balance');
+        $table->date('start_date');
+        $table->date('end_date');
+        $table->timestamps();
         });
     }
 

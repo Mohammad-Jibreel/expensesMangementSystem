@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('expenses', function (Blueprint $table) {
-            $table->id('expenseID');
-            $table->foreignId('userID')->constrained('users');
+            $table->increments('id');
+            $table->unsignedBigInteger('user_id'); // Ensure this matches the type of users.id
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // Ensure table name is plural
             $table->double('amount');
             $table->date('date');
             $table->string('description');

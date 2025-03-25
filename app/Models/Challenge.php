@@ -8,10 +8,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Challenge extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'challenge_name', 'completed'];
+
+    protected $fillable = [
+        'user_id',
+        'challenge_name',
+        'completed',
+    ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 }
