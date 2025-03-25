@@ -1,62 +1,70 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg rounded-lg">
-                <div class="card-header text-center bg-primary">
-                    <h4 class="text-white">{{ __('Create Account') }}</h4>
-                    <p class=" text-white">{{ __('Please fill in the details to create your account.') }}</p>
-                </div>
+<div class="d-lg-flex half" style="background-image: url('{{ asset('loginpage/images/bg_1.jpg') }}'); background-repeat: no-repeat; background-size: cover;">
+    <div class="bg order-1 order-md-2" ></div>
+    <div class="contents order-2 order-md-1">
 
-                <div class="card-body">
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-7">
+            <h3>{{ __('Create Account') }} to <strong>Spendiary</strong></h3>
+            <p class="mb-4">Welcome to <strong>Spendiary</strong>{{ __('Please fill in the details to create your account.') }}</p>
+
+
+
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
-
-                        <div class="mb-4">
-                            <label for="name" class="form-label">{{ __('Name') }}</label>
-                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                        <div class="form-group first">
+                            <label for="name" >{{ __('Name') }}</label>
+                            <input  type="text" placeholder="Enter Your Name" id="name" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
                             @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                                <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
-                        <div class="mb-4">
-                            <label for="email" class="form-label">{{ __('Email Address') }}</label>
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                        <div class="form-group first">
+                            <label for="username" >{{ __('Email Address') }}</label>
+                            <input  type="email" placeholder="your-email@gmail.com" id="username" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                             @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="mb-4">
-                            <label for="password" class="form-label">{{ __('Password') }}</label>
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                        <div class="form-group last mb-3">
+                            <label for="password">{{ __('Password') }}</label>
+                            <input  type="password" placeholder="Your Password" id="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                             @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="mb-4">
-                            <label for="password-confirm" class="form-label">{{ __('Confirm Password') }}</label>
-                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                        <div class="d-flex mb-5 align-items-center">
+                            <label class="control control--checkbox mb-0"><span class="caption">
+
+                            </span>
+                                <input class="checkbox" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                <div class="control__indicator"></div>
+
+                                <label class="form-check-label" for="remember">
+                                    {{ __('Remember Me') }}
+                                </label>
+                            </div>
+
+                            @if (Route::has('password.request'))
+                                <a class="text-decoration-none" href="{{ route('password.request') }}">
+
+                                </a>
+                            @endif
+
+                            <span class="ml-auto"><a href="#" class="forgot-pass">   {{ __('Forgot Your Password?') }}</a></span>
+
                         </div>
 
-                        <div class="d-flex justify-content-center mt-4">
-                            <button type="submit" class="btn btn-primary  btn-lg">
-                                {{ __('Register') }}
-                            </button>
-                        </div>
+                            <input type="submit" value="{{ __('Login') }}" class="btn btn-block btn-primary col-md-6">
+
                     </form>
                 </div>
             </div>
@@ -65,72 +73,3 @@
 </div>
 @endsection
 
-@push('styles')
-<style>
-    .card {
-        background-color: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-header {
-        font-weight: 700;
-        font-size: 1.8rem;
-        color: #007bff;
-    }
-
-    .card-header p {
-        font-size: 1rem;
-        color: #666;
-        margin-top: 5px;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-        font-weight: 600;
-        border-radius: 8px;
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #0056b3;
-        transform: translateY(-2px);
-    }
-
-    .form-label {
-        font-weight: 500;
-        color: #333;
-        font-size: 1.1rem;
-    }
-
-    .form-control {
-        border-radius: 8px;
-        padding: 1rem;
-        font-size: 1.1rem;
-        border: 1px solid #ced4da;
-        transition: border-color 0.3s ease;
-    }
-
-    .form-control:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
-
-    .invalid-feedback {
-        font-size: 0.875rem;
-        color: red;
-    }
-
-    .d-flex {
-        display: flex;
-    }
-
-    .justify-content-center {
-        justify-content: center;
-    }
-</style>
-@endpush
