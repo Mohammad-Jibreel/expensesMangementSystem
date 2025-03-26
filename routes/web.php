@@ -43,10 +43,7 @@ Route::post('email/resend', [VerificationController::class, 'resend'])->name('ve
 
 Route::get('/test',function(){
 return view('layouts.index');
-})->middleware([
-    'auth','verified'
-]);
-
+});
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');

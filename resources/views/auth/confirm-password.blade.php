@@ -1,28 +1,28 @@
-<x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+@extends('layouts.app')
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
+@section('content')
+<div class="d-lg-flex half" style="background: linear-gradient(to right, #ff6600, #ff9933); height: 100vh; justify-content: center; align-items: center;">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-7 form-container bg-white p-5 rounded shadow">
+                <h3 class="text-center text-primary">{{ __('Confirm Your Password') }}</h3>
+                <p class="mb-4 text-center text-gray-600">
+                    {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
+                </p>
+                <x-validation-errors class="mb-4" />
+                <form method="POST" action="{{ route('password.confirm') }}">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="password" class="form-label">{{ __('Password') }}</label>
+                        <input type="password" placeholder="Your Password" id="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                        @error('password')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <button type="submit" class="btn btn-custom w-100">{{ __('Confirm') }}</button>
+                </form>
+            </div>
         </div>
-
-        <x-validation-errors class="mb-4" />
-
-        <form method="POST" action="{{ route('password.confirm') }}">
-            @csrf
-
-            <div>
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" autofocus />
-            </div>
-
-            <div class="flex justify-end mt-4">
-                <x-button class="ms-4">
-                    {{ __('Confirm') }}
-                </x-button>
-            </div>
-        </form>
-    </x-authentication-card>
-</x-guest-layout>
+    </div>
+</div>
+@endsection

@@ -22,14 +22,11 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#page-top">Spendiary</a>
+                <a class="navbar-brand" href="/">Spendiary</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#FAQ ">FAQ</a></li>
                         <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
                         <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
@@ -56,179 +53,13 @@
             </div>
         </header>
 
-        <!-- About-->
-        <section class="page-section bg-primary" id="about">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-8 text-center">
-                        <h2 class="text-white mt-0">Smart Finance, Simplified!</h2>
-                        <hr class="divider divider-light" />
-                        <p class="text-white-75 mb-4">
-                            Our platform gives you everything you need to manage your expenses, track savings, and stay on top of your financial goals. No more spreadsheets—just a seamless, hassle-free experience to make money management effortless!
-                        </p>
-                        <a class="btn btn-light btn-xl" href="#services">Get Started!</a>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Services-->
-        <section class="page-section" id="services">
-            <div class="container px-4 px-lg-5">
-                <h2 class="text-center mt-0">What We Offer</h2>
-                <hr class="divider" />
-                <div class="row gx-4 gx-lg-5">
-                    <div class="col-lg-3 col-md-6 text-center">
-                        <div class="mt-5">
-                            <div class="mb-2"><i class="bi-wallet2 fs-1 text-primary"></i></div>
-                            <h3 class="h4 mb-2">Expense Tracking</h3>
-                            <p class="text-muted mb-0">Easily log and categorize your expenses to stay on top of your finances.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 text-center">
-                        <div class="mt-5">
-                            <div class="mb-2"><i class="bi-graph-up fs-1 text-primary"></i></div>
-                            <h3 class="h4 mb-2">Budget Planning</h3>
-                            <p class="text-muted mb-0">Set budgets and track your spending to achieve your financial goals.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 text-center">
-                        <div class="mt-5">
-                            <div class="mb-2"><i class="bi-piggy-bank fs-1 text-primary"></i></div>
-                            <h3 class="h4 mb-2">Savings Goals</h3>
-                            <p class="text-muted mb-0">Plan and save for the future with personalized savings targets.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 text-center">
-                        <div class="mt-5">
-                            <div class="mb-2"><i class="bi-bell fs-1 text-primary"></i></div>
-                            <h3 class="h4 mb-2">Smart Alerts</h3>
-                            <p class="text-muted mb-0">Get reminders and insights to help you make better financial decisions.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Portfolio-->
-        <div id="portfolio">
-            <div class="container-fluid p-0">
-                <div class="row g-0">
-                    <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="{{asset('landingpage/assets/img/portfolio/fullsize/1.jpg')}}" title="Expense Tracking">
-                            <img class="img-fluid" src="{{asset('landingpage/assets/img/portfolio/thumbnails/1.jpg')}}" alt="Expense Tracking" />
-                            <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Feature</div>
-                                <div class="project-name">Expense Tracking</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="{{asset('landingpage/assets/img/portfolio/fullsize/2.jpg')}}" title="Budget Planning">
-                            <img class="img-fluid" src="{{asset('landingpage/assets/img/portfolio/thumbnails/2.jpg')}}" alt="Budget Planning" />
-                            <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Feature</div>
-                                <div class="project-name">Budget Planning</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="{{asset('landingpage/assets/img/portfolio/fullsize/3.jpg')}}" title="Savings Goals">
-                            <img class="img-fluid" src="{{asset('landingpage/assets/img/portfolio/thumbnails/3.jpg')}}" alt="Savings Goals" />
-                            <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Feature</div>
-                                <div class="project-name">Savings Goals</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="{{asset('landingpage/assets/img/portfolio/fullsize/4.jpg')}}" title="Financial Reports">
-                            <img class="img-fluid" src="{{asset('landingpage/assets/img/portfolio/thumbnails/4.jpg')}}" alt="Financial Reports" />
-                            <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Feature</div>
-                                <div class="project-name">Financial Reports</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="{{asset('landingpage/assets/img/portfolio/fullsize/5.jpg')}}" title="Smart Alerts">
-                            <img class="img-fluid" src="{{asset('landingpage/assets/img/portfolio/thumbnails/5.jpg')}}" alt="Smart Alerts" />
-                            <div class="portfolio-box-caption">
-                                <div class="project-category text-white-50">Feature</div>
-                                <div class="project-name">Smart Alerts</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="{{asset('landingpage/assets/img/portfolio/fullsize/6.jpg')}}" title="Shared Expenses">
-                            <img class="img-fluid" src="{{asset('landingpage/assets/img/portfolio/thumbnails/6.jpg')}}" alt="Shared Expenses" />
-                            <div class="portfolio-box-caption p-3">
-                                <div class="project-category text-white-50">Feature</div>
-                                <div class="project-name">Shared Expenses</div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Call to action-->
-        <section class="page-section bg-dark text-white">
-            <div class="container px-4 px-lg-5 text-center">
-                <h2 class="mb-4">Start Managing Your Finances Today!</h2>
-                <p class="mb-4">Take control of your expenses, set savings goals, and achieve financial success—all in one place.</p>
-                <a class="btn btn-light btn-xl" href="#signup">Get Started Now!</a>
-            </div>
-        </section>
 
-        <!-- Contact-->
-        <section class="page-section" id="contact">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-8 col-xl-6 text-center">
-                        <h2 class="mt-0">Get in Touch with Us!</h2>
-                        <hr class="divider" />
-                        <p class="text-muted mb-5">Have questions about managing your finances? Need support? Send us a message, and we'll get back to you as soon as possible!</p>
-                    </div>
-                </div>
-                <div class="row gx-4 gx-lg-5 justify-content-center mb-5">
-                    <div class="col-lg-6">
-                        <form id="contactForm">
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="name" type="text" placeholder="Enter your name..." required />
-                                <label for="name">Full Name</label>
-                                <div class="invalid-feedback">A name is required.</div>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="email" type="email" placeholder="name@example.com" required />
-                                <label for="email">Email Address</label>
-                                <div class="invalid-feedback">A valid email is required.</div>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" required />
-                                <label for="phone">Phone Number</label>
-                                <div class="invalid-feedback">A phone number is required.</div>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" id="message" placeholder="Enter your message here..." style="height: 10rem" required></textarea>
-                                <label for="message">Message</label>
-                                <div class="invalid-feedback">A message is required.</div>
-                            </div>
-                            <div class="d-grid">
-                                <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Send Message</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-4 text-center mb-5 mb-lg-0">
-                        <i class="bi-phone fs-2 mb-3 text-muted"></i>
-                        <div>+1 (555) 123-4567</div>
-                        <div>Email: support@yourexpenseapp.com</div>
-                    </div>
-                </div>
-            </div>
-        </section>
+
+
+
         <section class="page-section" id="FAQ">
             <div class="container px-4 px-lg-5">
                 <div class="text-center">
