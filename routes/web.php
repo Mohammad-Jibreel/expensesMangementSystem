@@ -16,11 +16,11 @@ use App\Http\Controllers\GroupExpenseController;
 use App\Http\Controllers\GroupMemberController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\SavingGoalController;
+use App\Http\Controllers\FAQController;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [FAQController::class, 'index']);
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
@@ -45,11 +45,11 @@ Route::get('/test',function(){
 return view('layouts.index');
 });
 Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
+    return view('layouts.index');
 })->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->get('/home', function () {
-    return view('home');
+    return view('layouts.index');
 })->name('home');
 
 

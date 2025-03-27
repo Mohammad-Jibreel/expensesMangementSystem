@@ -40,26 +40,32 @@
 </head>
 
 <body class="animsition">
+
     <div class="page-wrapper">
-
-        @include('layouts.aside')
-        <div class="page-container">
-
-        @include('layouts.header')
-        <div class="main-content">
-            <div class="section__content section__content--p30">
-                <div class="container-fluid">
-                    <div class="row">
-                            <div class="table-responsive ">
-                                @yield('content')
+        @if(Auth::check() && Auth::user()->hasVerifiedEmail())
+            @include('layouts.aside')
+            <div class="page-container">
+                @include('layouts.header')
+                <div class="main-content">
+                    <div class="section__content section__content--p30">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="table-responsive">
+                                    @yield('content')
+                                </div>
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        </div>
-
+        @else
+            @yield('content')
+        @endif
     </div>
+
+</body>
+
+
     <!-- Jquery JS-->
     <script src="{{ asset('vendor/jquery-3.2.1.min.js') }}"></script>
     <!-- Bootstrap JS-->

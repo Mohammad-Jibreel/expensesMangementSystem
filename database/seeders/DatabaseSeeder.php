@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
             GroupExpenseSeeder::class,
             RewardSeeder::class,
             ChallengeSeeder::class,
+            FAQSeeder::class,
+
         ]);
     }
 }
