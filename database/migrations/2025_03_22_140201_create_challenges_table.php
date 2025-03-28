@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('challenges', function (Blueprint $table) {
-            $table->id();
+        $table->id();
         $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+        $table->foreignId('challenge_id')->constrained('challenges')->onDelete('cascade');
         $table->string('challenge_name');
         $table->boolean('completed')->default(false);
         $table->timestamps();

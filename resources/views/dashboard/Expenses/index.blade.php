@@ -42,17 +42,17 @@
     <tbody>
         @foreach($expenses as $expense)
         <tr>
-            <td>{{ $expense->expenseID + 1 }}</td>
+            <td>{{ $expense->id  + 1 }}</td>
             <td>{{ $expense->date }}</td>
-            <td>{{ $expense->category->categoryName }}</td>
+            <td>{{ $expense->category->category_name }}</td>
             <td>${{ number_format($expense->amount, 2) }}</td>
             <td>{{ $expense->description }}</td>
             <td>
 
 
                 <!-- Edit and Delete Buttons -->
-                <a href="{{ route('expenses.edit', $expense->expenseID) }}" class="btn btn-warning btn-sm">Edit</a>
-                <form action="{{ route('expenses.destroy', $expense->expenseID) }}" method="POST" class="d-inline">
+                <a href="{{ route('expenses.edit', $expense->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                <form action="{{ route('expenses.destroy', $expense->id) }}" method="POST" class="d-inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>

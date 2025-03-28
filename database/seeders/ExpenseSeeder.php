@@ -20,6 +20,7 @@ class ExpenseSeeder extends Seeder
                 'amount' => $faker->randomFloat(2, 10, 1000),
                 'date' => $faker->date(),
                 'description' => $faker->sentence(),
+                'category_id'=>1
             ]);
         }
     }

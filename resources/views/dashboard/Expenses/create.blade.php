@@ -11,22 +11,26 @@
 
         <div class="mb-3">
             <label class="form-label">Amount</label>
-            <input type="number" name="amount" class="form-control" required>
+            <input type="number" name="amount" class="form-control @error('amount') is-invalid @enderror" required>
+            @error('amount')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+
         </div>
         <div class="mb-3">
             <label class="form-label">Date</label>
-            <input type="date" name="date" class="form-control" required>
+            <input type="date" name="date" class="form-control" >
         </div>
         <div class="mb-3">
             <label class="form-label">Description</label>
-            <input type="text" name="description" class="form-control" required>
+            <input type="text" name="description" class="form-control" >
         </div>
         <div class="form-group">
             <label for="category_id">Category</label>
             <select name="category_id" class="form-control" required>
                 @foreach($categories as $category)
                 <option value="{{ $category->id }}" >
-                    {{ $category->categoryName }}
+                    {{ $category->category_name }}
                 </option>
                 @endforeach
             </select>

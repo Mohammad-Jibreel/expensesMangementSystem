@@ -21,6 +21,10 @@ class GroupExpenseSeeder extends Seeder
             'amount' => 50.00,
             'description' => 'Dinner with friends',
             'date' => $faker->date(),
+            'group_id'=>1,
+            'category_id'=>1
+
+
 
         ]);
 
@@ -29,6 +33,8 @@ class GroupExpenseSeeder extends Seeder
             'amount' => 200.00,
             'description' => 'Grocery shopping',
             'date' => $faker->date(),
+            'group_id'=>1,
+            'category_id'=>1
 
         ]);
     }

@@ -15,9 +15,11 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedBigInteger('user_id'); // Ensure this matches the type of users.id
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // Ensure table name is plural
+            $table->unsignedBigInteger('category_id'); // Ensure this matches the type of users.id
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade'); // Ensure table name is plural
             $table->double('amount');
-            $table->date('date');
-            $table->string('description');
+            $table->date('date')->default(DB::raw('CURRENT_DATE'));
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

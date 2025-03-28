@@ -17,12 +17,15 @@ class ChallengeSeeder extends Seeder
             'user_id' => 1, // John Doe
             'challenge_name' => 'Save $100 in a month',
             'completed' => false,
+            'challenge_id'=>1
+
         ]);
 
         Challenge::create([
             'user_id' => 2, // Jane Smith
             'challenge_name' => 'Reduce weekly spending by 20%',
             'completed' => true,
+            'challenge_id'=>1
         ]);
     }
 }
