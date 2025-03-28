@@ -5,35 +5,74 @@ namespace App\Http\Controllers;
 use App\Models\Report;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;  // ✅ Fix for Response
-use Barryvdh\DomPDF\Facade\Pdf;           // ✅ Fix for Pdf
+use Illuminate\Support\Facades\Response;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\Models\Expense;
 
 class ReportController extends Controller
 {
-      /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        // Get reports for the authenticated user, paginate the results
-        $reports = Report::where('userID', auth()->id())->paginate(10);
-        return view('dashboard.Reports.index', compact('reports'));
+        $userId = Auth::id();
+        $fromMonth   = $request->input('from_month', Carbon::now()->month);
+        $fromYear    = $request->input('from_year', Carbon::now()->year);
+        $toMonth     = $request->input('to_month', Carbon::now()->subMonth()->month);
+        $toYear      = $request->input('to_year', Carbon::now()->year);
+        $category_id = $request->input('category_id', null);
+        $currentMonthExpenses = Expense::where('user_id', $userId)
+        ->when($category_id, function ($query, $category_id) {
+            return $query->where('category_id', $category_id);
+        })
+        ->whereMonth('created_at', $fromMonth)  // Make sure the `fromMonth` variable is used here
+        ->whereYear('created_at', $fromYear)    // Same for `fromYear`
+        ->groupBy('category_id')  // Group by category_id
+        ->selectRaw('category_id, SUM(amount) as total')  // Select the category and sum the amounts
+        ->get();
+
+        $previousMonthExpenses = Expense::where('user_id', $userId)
+            ->when($category_id, function ($query, $category_id) {
+                return $query->where('category_id', $category_id);
+            })
+            ->whereMonth('created_at', $toMonth)
+            ->whereYear('created_at', $toYear)
+            ->groupBy('category_id')
+            ->selectRaw('category_id, SUM(amount) as total')
+            ->with('category')
+            ->get();
+            $topExpenses = Expense::where('user_id', $userId)
+            ->with('category')
+            ->whereMonth('date', Carbon::now()->month)
+            ->whereYear('date', Carbon::now()->year)
+            ->orderBy('amount', 'desc')
+            ->take(5)
+            ->get();
+
+
+
+
+
+        return view('dashboard.reports.index', compact(
+            'currentMonthExpenses',
+            'previousMonthExpenses',
+            'topExpenses',
+            'fromMonth',
+            'fromYear',
+            'toMonth',
+            'toYear',
+            'category_id'
+        ));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('dashboard.Reports.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
-        // Validate the input data
         $validated = $request->validate([
             'totalExpenses' => 'required|numeric',
             'totalIncome' => 'required|numeric',
@@ -41,44 +80,29 @@ class ReportController extends Controller
             'startDate' => 'required|date',
             'endDate' => 'required|date',
         ]);
-
-        // Create the report
-        $validated['userID'] = auth()->id(); // Associate the user
+        $validated['userID'] = auth()->id();
         Report::create($validated);
-
-        // Redirect to reports index with a success message
         return redirect()->route('report.index')->with('success', 'Report created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Report $report)
     {
-        // Ensure the report belongs to the logged-in user
         $this->authorize('view', $report);
         return view('dashboard.Reports.show', compact('report'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Report $report)
     {
-        // Ensure the report belongs to the logged-in user
         $this->authorize('update', $report);
         return view('dashboard.Reports.edit', compact('report'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, Report $report)
     {
-        // Ensure the report belongs to the logged-in user
         $this->authorize('update', $report);
-
-        // Validate the input data
         $validated = $request->validate([
             'totalExpenses' => 'required|numeric',
             'totalIncome' => 'required|numeric',
@@ -86,26 +110,14 @@ class ReportController extends Controller
             'startDate' => 'required|date',
             'endDate' => 'required|date',
         ]);
-
-        // Update the report
         $report->update($validated);
-
-        // Redirect to reports index with a success message
         return redirect()->route('report.index')->with('success', 'Report updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Report $report)
     {
-        // Ensure the report belongs to the logged-in user
         $this->authorize('delete', $report);
-
-        // Delete the report
         $report->delete();
-
-        // Redirect to reports index with a success message
         return redirect()->route('report.index')->with('success', 'Report deleted successfully.');
     }
 

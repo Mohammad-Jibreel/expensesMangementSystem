@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-        $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-        $table->double('total_expenses');
-        $table->double('total_income');
-        $table->double('net_balance');
-        $table->date('start_date');
-        $table->date('end_date');
-        $table->timestamps();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); // Track per category
+            $table->double('total_expense');
+            $table->integer('month'); // Store month (1-12)
+            $table->integer('year'); // Store year
+            $table->timestamps();
+
         });
     }
 

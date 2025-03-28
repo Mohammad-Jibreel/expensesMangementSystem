@@ -19,6 +19,7 @@ use App\Http\Controllers\SavingGoalController;
 use App\Http\Controllers\FAQController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 
 
 
@@ -46,13 +47,9 @@ Route::post('email/resend', [VerificationController::class, 'resend'])->name('ve
 Route::get('/test',function(){
 return view('layouts.index');
 });
-Route::middleware(['auth', 'verified'])->get('/dashboard', function () {
-    return view('layouts.index');
-})->name('dashboard');
 
-Route::middleware(['auth', 'verified'])->get('/home', function () {
-    return view('layouts.index');
-})->name('home');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
 
 
 Route::resource('expenses', ExpenseController::class);

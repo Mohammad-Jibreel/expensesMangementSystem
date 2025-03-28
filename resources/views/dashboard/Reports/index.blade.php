@@ -1,68 +1,177 @@
 @extends('layouts.mainLayout')
 
 @section('content')
+<div class="container my-4">
+    <h2 class="mb-4">Financial Reports</h2>
 
-<div class="p-2 m-2">
-    <h2 class="mb-3 text-primary">Reports List</h2>
+    <!-- Filter Form -->
+    <form method="GET" action="{{ route('report.index') }}" class="mb-4">
+        <div class="row">
+            <!-- From Month & Year -->
+            <div class="col-md-2">
+                <label for="from_month" class="form-label">From Month </label>
+                <select name="from_month" id="from_month" class="form-control">
+                    @foreach(range(1,12) as $m)
+                        <option value="{{ $m }}" {{ $m == $fromMonth ? 'selected' : '' }}>
+                            {{ date("F", mktime(0,0,0,$m,1)) }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="from_year" class="form-label">From Year</label>
+                <select name="from_year" id="from_year" class="form-control">
+                    @foreach(range(Carbon\Carbon::now()->year-5, Carbon\Carbon::now()->year) as $y)
+                        <option value="{{ $y }}" {{ $y == $fromYear ? 'selected' : '' }}>
+                            {{ $y }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-    @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success!</strong> {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-    @endif
+            <!-- To Month & Year -->
+            <div class="col-md-2">
+                <label for="to_month" class="form-label">To Month </label>
+                <select name="to_month" id="to_month" class="form-control">
+                    @foreach(range(1,12) as $m)
+                        <option value="{{ $m }}" {{ $m == $toMonth ? 'selected' : '' }}>
+                            {{ date("F", mktime(0,0,0,$m,1)) }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="to_year" class="form-label">To Year</label>
+                <select name="to_year" id="to_year" class="form-control">
+                    @foreach(range(Carbon\Carbon::now()->year-5, Carbon\Carbon::now()->year) as $y)
+                        <option value="{{ $y }}" {{ $y == $toYear ? 'selected' : '' }}>
+                            {{ $y }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-    <a href="{{ route('report.create') }}" class="btn btn-primary btn-lg mt-3">Add New Report</a>
+            <!-- Category Filter -->
+            <div class="col-md-3">
+                <label for="category_id" class="form-label">Category</label>
+                <select name="category_id" id="category_id" class="form-control">
+                    <option value="">Choose Category Name</option>
+                    @foreach(App\Models\Category::all() as $cat)
+                        <option value="{{ $cat->id }}" {{ ($category_id == $cat->id) ? 'selected' : '' }}>
+                            {{ $cat->category_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-    <!-- Export Buttons -->
-    <div class="mt-3">
-        <a href="{{ route('reports.export.all', 'csv') }}" class="btn btn-success btn-lg">Export All (CSV)</a>
-        <a href="{{ route('reports.export.all', 'pdf') }}" class="btn btn-danger btn-lg">Export All (PDF)</a>
-    </div>
+            <div class=" d-flex align-items-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-filter"></i> Filter
+                </button>
+            </div>
+
+        </div>
+    </form>
+
+    <!-- Comparison Table -->
+    <h4>Comparison of expenses for the specified month</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Total Expenses (Period One)</th>
+                <th>Total Expenses (Period Two)</th>
+                <th>Difference</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($currentMonthExpenses as $current)
+                @php
+                    $previous = $previousMonthExpenses->where('category_id', $current->category_id)->first();
+                    $previousTotal = $previous ? $previous->total : 0;
+                    $difference = $current->total - $previousTotal;
+                @endphp
+                <tr>
+                    <td>{{ $current->category->category_name }}</td>
+                    <td>${{ number_format($current->total, 2) }}</td>
+                    <td>${{ number_format($previousTotal, 2) }}</td>
+                    <td class="{{ $difference > 0 ? 'text-danger' : 'text-success' }}">
+                        {{ $difference > 0 ? '+' : '' }}${{ number_format($difference, 2) }}
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <!-- Flow Chart for Top 5 Expenses -->
+    <h4 class="mt-5">Top 5 Expenses Incurred During the Period (Flow Chart)</h4>
+    @if($topExpenses->isEmpty())
+    <p class="text-danger">No expenses recorded for this period.</p>
+@else
+    <canvas id="topExpensesChart"></canvas>
+@endif
+
 </div>
 
-<table class="table table-borderless table-striped table-earning">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Total Expenses</th>
-            <th>Total Income</th>
-            <th>Net Balance</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($reports as $report)
-        <tr>
-            <td>{{ $report->reportID }}</td>
-            <td>${{ number_format($report->totalExpenses, 2) }}</td>
-            <td>${{ number_format($report->totalIncome, 2) }}</td>
-            <td>${{ number_format($report->netBalance, 2) }}</td>
-            <td>{{ $report->startDate }}</td>
-            <td>{{ $report->endDate }}</td>
-            <td>
-                <a href="{{ route('report.show', $report->reportID) }}" class="btn btn-info btn-sm">View</a>
-                <a href="{{ route('report.edit', $report->reportID) }}" class="btn btn-warning btn-sm">Edit</a>
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("Script Loaded!");
 
-                <!-- Export Individual Report -->
-                <a href="{{ route('reports.export', ['id' => $report->reportID, 'format' => 'csv']) }}" class="btn btn-success btn-sm">CSV</a>
-                <a href="{{ route('reports.export', ['id' => $report->reportID, 'format' => 'pdf']) }}" class="btn btn-danger btn-sm">PDF</a>
+    var canvas = document.getElementById('topExpensesChart');
+    if (!canvas) {
+        console.error("Chart canvas not found!");
+        return;
+    }
 
-                <form action="{{ route('report.destroy', $report->reportID) }}" method="POST" class="d-inline">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+    var ctx = canvas.getContext('2d');
 
-<div class="d-flex justify-content-center mt-4">
-    {{ $reports->links('pagination::bootstrap-5') }}
-</div>
+    // Using JSON data sent from Laravel
+    var labels = @json($topExpenses->map(function($expense) {
+            return $expense->category->category_name;
+        }));
+
+        var data = @json($topExpenses->map(function($expense) {
+            return $expense->amount;
+        }));
+
+        console.log("Labels:", labels);
+        console.log("Data:", data);
+
+
+    if (labels.length === 0 || data.length === 0) {
+        console.warn("No data available for chart.");
+        return;
+    }
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'المبلغ المصروف ($)',
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+</script>
+@endsection
 
 @endsection
+
+
+

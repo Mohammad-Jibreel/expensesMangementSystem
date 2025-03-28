@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Report; // Add this import statement
 use App\Models\User; // Add this import statement
+use App\Models\Category; // Add this import statement
 
 use Faker\Factory as Faker;
 
@@ -18,15 +19,17 @@ class ReportSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        // Generate 5 random reports for users
-        foreach (range(1, 5) as $index) {
+        // Generate reports for multiple users and categories
+        foreach (range(1, 10) as $index) { // Create 10 reports
+            $user = User::inRandomOrder()->first();
+            $category = Category::inRandomOrder()->first();
+
             Report::create([
-                'user_id' => User::inRandomOrder()->first()->id, // Get a random user ID
-                'total_expenses' => $faker->randomFloat(2, 50, 1000),
-                'total_income' => $faker->randomFloat(2, 100, 2000),
-                'net_balance' => $faker->randomFloat(2, 50, 1500),
-                'start_date' => $faker->date(),
-                'end_date' => $faker->date(),
+                'user_id' => $user->id,
+                'category_id' => $category->id,
+                'total_expense' => $faker->randomFloat(2, 50, 1000), // Random expense
+                'month' => $faker->numberBetween(1, 12), // Random month (1-12)
+                'year' => $faker->numberBetween(2023, 2025), // Random year
             ]);
         }
     }
