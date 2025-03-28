@@ -60,7 +60,10 @@ class ExpenseController extends Controller
             ]);
         }
 
-        // Check if adding the expense will exceed the salary
+        if ($request->amount <= 0) {
+            return redirect()->back()->withErrors(['amount' => 'Expense amount must be greater than zero!']);
+        }
+
         if (($budget->total_expenses + $request->amount) > $budget->salary) {
             return redirect()->back()->withErrors(['amount' => 'Expense exceeds available balance for this month!']);
         }
