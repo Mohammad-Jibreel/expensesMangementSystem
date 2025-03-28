@@ -2,7 +2,7 @@
     <div class="logo">
         <a href="#">
             <img width="40px" src="https://cdn-icons-png.flaticon.com/512/9307/9307284.png" alt="Cool Admin" />
-       Expenses
+       Spendiary
         </a>
     </div>
     <div class="menu-sidebar__content js-scrollbar1">
@@ -36,35 +36,22 @@
                         <i class="fas fa-chart-line"></i>Reports </a>
                 </li>
 
+
+
+
+
                 <li>
-                    <a href="{{ route('groups.index') }}">
-                        <i class="fas fa-users"></i> Groups
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('group-expenses.index') }}">
-                        <i class="fas fa-money-bill-wave"></i> Group Expenses
+                    <a href="{{ route('savings.index') }}">
+                        <i class="fas fa-wallet"></i> Savings Wallet
                     </a>
                 </li>
 
-                <li>
-                    <a href="{{ route('rewards.index') }}">
-                        <i class="fas fa-trophy"></i> Rewards
-                    </a>
-                </li>
 
                 <li>
-                    <a href="#">
-                        <i class="fas fa-cog"></i>Settings </a>
-                </li>
-                <li>
-                    <a href="map.html">
+                    <a href="{{ route('contact.create') }}">
                         <i class="fas fa-headset"></i>Contact Support</a>
                 </li>
-                <li>
-                    <a href="map.html">
-                        <i class="fas fa-question-circle"></i>FAQ </a>
-                </li>
+
 
 
             </ul>

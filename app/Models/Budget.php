@@ -9,13 +9,15 @@ class Budget extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'salary',
-        'total_expenses',
-        'remaining_balance',
-        'end_date',
-    ];
+    protected $fillable = ['user_id', 'salary', 'total_expenses', 'remaining_balance', 'year', 'month'];
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($budget) {
+            $budget->remaining_balance = $budget->salary - $budget->total_expenses;
+        });
+    }
 
     public function user()
     {

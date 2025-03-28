@@ -2,27 +2,45 @@
 
 @section('content')
 
-<div class="container">
-    <h2 class="mb-3">Create New Budget</h2>
+<div class="p-2 m-2">
+    <h2 class="mb-3 text-primary">Add Budget</h2>
 
-    <form method="POST" action="{{ route('budgets.store') }}">
+    <form action="{{ route('budgets.store') }}" method="POST">
         @csrf
+
         <div class="mb-3">
-            <label for="limit" class="form-label">Budget Limit</label>
-            <input type="number" class="form-control" id="limit" name="limit" required>
+            <label for="salary" class="form-label">Salary</label>
+            <input type="number" step="0.01" class="form-control" name="salary" required>
         </div>
 
         <div class="mb-3">
-            <label for="startDate" class="form-label">Start Date</label>
-            <input type="date" class="form-control" id="startDate" name="startDate" required>
+            <label for="month" class="form-label">Month</label>
+            <select class="form-control @error('month') is-invalid @enderror" name="month" required>
+                @foreach(range(1,12) as $m)
+                    <option value="{{ $m }}">{{ date("F", mktime(0, 0, 0, $m, 1)) }}</option>
+                @endforeach
+
+            </select>
+  @error('month')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+
+
         </div>
 
         <div class="mb-3">
-            <label for="endDate" class="form-label">End Date</label>
-            <input type="date" class="form-control" id="endDate" name="endDate" required>
+            <label for="year" class="form-label">Year</label>
+            <select class="form-control @error('year') is-invalid @enderror" name="year" required>
+                @foreach(range(date('Y') - 10, date('Y')) as $y)
+                    <option value="{{ $y }}">{{ $y }}</option>
+                @endforeach
+            </select>
+
+
+
         </div>
 
-        <button type="submit" class="btn btn-primary">Save Budget</button>
+        <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </div>
 

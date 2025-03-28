@@ -1,52 +1,46 @@
-@extends('layouts.app')
+@extends('layouts.mainLayout')
 
 @section('content')
-<div class="container">
-    <h1 class="text-2xl font-bold mb-4">أهداف التوفير</h1>
 
-    @if (session('success'))
-        <div class="bg-green-200 text-green-700 p-3 rounded mb-4">
-            {{ session('success') }}
-        </div>
+<div class="container">
+    <h2>My Savings Goals</h2>
+    <a href="{{ route('savings.create') }}" class="btn btn-primary mb-2 mt-4">Add New Savings Goal</a>
+
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('savings.store') }}" method="POST" class="mb-4">
-        @csrf
-        <label class="block">الهدف المالي:</label>
-        <input type="number" name="target_amount" class="border p-2 w-full" required>
-
-        <label class="block mt-2">المدة:</label>
-        <select name="duration" class="border p-2 w-full">
-            <option value="شهري">شهري</option>
-            <option value="6 أشهر">6 أشهر</option>
-            <option value="سنوي">سنوي</option>
-        </select>
-
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 mt-3">إضافة هدف</button>
-    </form>
-
-    <h2 class="text-xl font-semibold mt-6">الأهداف الحالية</h2>
-    <table class="table-auto w-full mt-4">
+    <table class="table table-borderless table-striped table-earning">
         <thead>
-            <tr class="bg-gray-200">
-                <th class="px-4 py-2">المبلغ المستهدف</th>
-                <th class="px-4 py-2">المدخر</th>
-                <th class="px-4 py-2">المدة</th>
-                <th class="px-4 py-2">التقدم</th>
+            <tr>
+                <th>Goal Name</th>
+                <th>Goal Amount</th>
+                <th>Remaining Months</th>
+                <th>Monthly Savings</th>
+                <th>Saved Amount</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($goals as $goal)
-            <tr class="border-b">
-                <td class="px-4 py-2">{{ $goal->target_amount }} ريال</td>
-                <td class="px-4 py-2">{{ $goal->saved_amount }} ريال</td>
-                <td class="px-4 py-2">{{ $goal->duration }}</td>
-                <td class="px-4 py-2">
-                    <progress value="{{ $goal->saved_amount }}" max="{{ $goal->target_amount }}"></progress>
-                </td>
-            </tr>
+            @foreach($savingsGoals as $goal)
+                <tr>
+                    <td>{{ $goal->goal_name }}</td>
+                    <td>${{ number_format($goal->goal_amount, 2) }}</td>
+                    <td>{{ $goal->remaining_months }}</td>
+                    <td>${{ number_format($goal->monthly_savings, 2) }}</td>
+                    <td>${{ number_format($goal->saved_amount, 2) }}</td>
+                    <td>
+                        <a href="{{ route('savings.edit', $goal->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <form action="{{ route('savings.destroy', $goal->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this goal?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>
 </div>
+
 @endsection

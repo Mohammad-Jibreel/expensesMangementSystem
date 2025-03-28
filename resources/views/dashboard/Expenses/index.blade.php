@@ -31,8 +31,8 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Date</th>
-            <th>Category</th>
+            <th>Expense Category</th>
+            <th>Entry Date</th>
             <th>Amount</th>
             <th>Description</th>
             <th>Actions</th>

@@ -13,12 +13,12 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Date</label>
+            <label class="form-label">Entry Date</label>
             <input type="date" name="date" class="form-control" value="{{ $expense->date }}" >
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Category</label>
+            <label class="form-label">Expense Category</label>
             <select name="category_id" class="form-control" >
                 <option value="">Select Category</option>
                 @foreach($categories as $category)

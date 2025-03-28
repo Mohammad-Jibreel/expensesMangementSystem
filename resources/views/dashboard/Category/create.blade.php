@@ -8,8 +8,8 @@
     <form action="{{ route('category.store') }}" method="POST">
         @csrf
         <div class="mb-3">
-            <label for="categoryName" class="form-label">Category Name</label>
-            <input type="text" class="form-control" id="categoryName" name="categoryName" required>
+            <label for="category_name" class="form-label">Category Name</label>
+            <input type="text" class="form-control" id="category_name" name="category_name" required>
         </div>
         <button type="submit" class="btn btn-primary">Create Category</button>
     </form>

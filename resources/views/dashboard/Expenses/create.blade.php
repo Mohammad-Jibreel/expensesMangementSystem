@@ -18,7 +18,7 @@
 
         </div>
         <div class="mb-3">
-            <label class="form-label">Date</label>
+            <label class="form-label">Entry Date</label>
             <input type="date" name="date" class="form-control" >
         </div>
         <div class="mb-3">
@@ -26,7 +26,7 @@
             <input type="text" name="description" class="form-control" >
         </div>
         <div class="form-group">
-            <label for="category_id">Category</label>
+            <label for="category_id">Expense Category</label>
             <select name="category_id" class="form-control" required>
                 @foreach($categories as $category)
                 <option value="{{ $category->id }}" >

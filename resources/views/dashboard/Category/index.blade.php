@@ -27,11 +27,11 @@
     <tbody>
         @foreach($categories as $category)
         <tr>
-            <td>{{ $category->categoryID }}</td>
-            <td>{{ $category->categoryName }}</td>
+            <td>{{ $category->id }}</td>
+            <td>{{ $category->category_name }}</td>
             <td>
-                <a href="{{ route('category.edit', $category->categoryID) }}" class="btn btn-warning btn-sm">Edit</a>
-                <form action="{{ route('category.destroy', $category->categoryID) }}" method="POST" class="d-inline">
+                <a href="{{ route('category.edit', $category->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                <form action="{{ route('category.destroy', $category->id) }}" method="POST" class="d-inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>

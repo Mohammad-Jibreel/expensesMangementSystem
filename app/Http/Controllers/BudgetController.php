@@ -6,6 +6,7 @@ use App\Models\Budget;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\BudgetRequest;
+use Illuminate\Support\Facades\Auth;
 
 class BudgetController extends Controller
 {
@@ -19,9 +20,7 @@ class BudgetController extends Controller
 
     public function index()
     {
-        $budgets = Budget::where('userID', auth()->id())
-                        ->paginate(10); // Pagination added
-
+        $budgets = Budget::where('user_id', Auth::id())->orderByDesc('year')->orderByDesc('month')->get();
         return view('dashboard.budgets.index', compact('budgets'));
     }
 
@@ -30,67 +29,71 @@ class BudgetController extends Controller
         return view('dashboard.budgets.create');
     }
 
-    public function store(BudgetRequest $request)
+    public function store(Request $request)
     {
-        Budget::create([
-            'userID' => auth()->id(),
-            'limit' => $request->limit,
-            'startDate' => $request->startDate,
-            'endDate' => $request->endDate,
+        $request->validate([
+            'salary' => 'required|numeric|min:0',
+            'year' => 'required|integer|min:2000|max:' . date('Y'),
+            'month' => 'required|integer|min:1|max:12',
         ]);
 
-        return redirect()->route('budgets.index')->with('success', 'Budget added successfully.');
+        // Ensure a budget does not already exist for the same month & year
+        $exists = Budget::where('user_id', Auth::id())
+            ->where('year', $request->year)
+            ->where('month', $request->month)
+            ->exists();
+
+        if ($exists) {
+            return back()->withErrors(['month' => 'A budget for this month and year already exists.']);
+        }
+
+        Budget::create([
+            'user_id' => Auth::id(),
+            'salary' => $request->salary,
+            'year' => $request->year,
+            'month' => $request->month,
+            'total_expenses' => 0,
+            'remaining_balance' => $request->salary, // Initially, remaining balance = salary
+        ]);
+
+        return redirect()->route('budgets.index')->with('success', 'Budget created successfully.');
     }
 
     public function edit(Budget $budget)
     {
-        $this->authorizeBudget($budget);
-
+        if ($budget->user_id !== Auth::id()) {
+            abort(403);
+        }
         return view('dashboard.budgets.edit', compact('budget'));
     }
 
-    public function update(BudgetRequest $request, Budget $budget)
+    public function update(Request $request, Budget $budget)
     {
-        $this->authorizeBudget($budget);
+        if ($budget->user_id !== Auth::id()) {
+            abort(403);
+        }
 
-        $budget->update($request->all());
+        $request->validate([
+            'salary' => 'required|numeric|min:0',
+        ]);
+
+        $budget->update([
+            'salary' => $request->salary,
+            'remaining_balance' => $request->salary - $budget->total_expenses,
+            'year'=>$request->year,
+            'month'=>$request->month
+
+        ]);
 
         return redirect()->route('budgets.index')->with('success', 'Budget updated successfully.');
     }
 
     public function destroy(Budget $budget)
     {
-        $this->authorizeBudget($budget);
-
-        $budget->delete();
-
-        return redirect()->route('budgets.index')->with('success', 'Budget deleted successfully.');
-    }
-
-    public function show(Budget $budget)
-    {
-        $this->authorizeBudget($budget);
-
-        return view('dashboard.budgets.show', compact('budget'));
-    }
-
-    private function authorizeBudget(Budget $budget)
-    {
-        if ($budget->userID !== auth()->id()) {
-            return redirect()->route('budgets.index')->withErrors('You are not authorized to access this budget.');
+        if ($budget->user_id !== Auth::id()) {
+            abort(403);
         }
-    }
-
-    public function remaingBudget() {
-        $budget = Budget::where('user_id', auth()->id())
-                ->where('category_id', $categoryId)
-                ->first();
-
-$expenses = Expense::where('user_id', auth()->id())
-                   ->where('category_id', $categoryId)
-                   ->sum('amount');
-
-$remainingBudget = $budget->amount - $expenses;  // How much is left in the budget
-
+        $budget->delete();
+        return redirect()->route('budgets.index')->with('success', 'Budget deleted successfully.');
     }
 }

@@ -26,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'profile_image'
     ];
 
     /**
@@ -105,6 +106,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function challenges()
     {
         return $this->hasMany(Challenge::class);
+    }
+
+    public function savingsGoals()
+    {
+        return $this->hasMany(SavingsGoal::class);
     }
 
 }

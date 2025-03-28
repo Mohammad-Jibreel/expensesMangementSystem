@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('saving_goals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->decimal('target_amount', 10, 2);
-            $table->decimal('saved_amount', 10, 2)->default(0);
-            $table->string('duration');
-            $table->timestamp('start_date')->useCurrent();
-            $table->timestamp('end_date')->nullable();
-            $table->timestamps();
+            $table->string('goal_name'); // Name of the savings goal (e.g., "New Laptop")
+            $table->decimal('goal_amount', 10, 2); // Total goal amount (e.g., 1200)
+            $table->decimal('monthly_savings', 10, 2); // How much to save monthly (calculated based on goal amount and months)
+            $table->decimal('saved_amount', 10, 2)->default(0); // Amount already saved (starts from 0)
+            $table->integer('remaining_months'); // Number of months to complete the goal
+            $table->foreignId('budget_id')->constrained()->onDelete('cascade'); // Budget that this goal is associated with
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // User who owns the goal
+                $table->timestamps();
         });
     }
 
