@@ -11,9 +11,12 @@
     <div class="row justify-content-center">
         <div class="col-md-4 text-center">
             <!-- Profile Image -->
-            <img src="{{ $user->profile_image ? url('storage/public/profile_images/' . $user->profile_image) : 'https://via.placeholder.com/150' }}" class="img-fluid rounded-circle" alt="Profile Image">
-
-
+            <img
+                src="{{ $user->profile_image ? asset('storage/profile_images/' . $user->profile_image) : 'https://via.placeholder.com/150' }}"
+                class="img-fluid rounded-circle mb-3"
+                alt="Profile Image"
+                style="max-width: 150px; border: 2px solid #ddd; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"
+            >
         </div>
 
         <div class="col-md-6">
