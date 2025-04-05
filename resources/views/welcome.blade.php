@@ -27,14 +27,32 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#FAQ ">FAQ</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#FAQ">FAQ</a></li>
+
+                        <!-- Check if user is authenticated -->
+                        @if(Auth::check())
+                            <!-- If authenticated, show profile and logout -->
+                            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.index') }}">Dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('profile.show') }}">Profile</a></li>
+                            <li class="nav-item">
+                                <!-- Logout form -->
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                                <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
+                            </li>                        @else
+                            <!-- If not authenticated, show login and register -->
+                            <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
+                        @endif
 
                     </ul>
                 </div>
             </div>
         </nav>
+
         <!-- Masthead-->
         <header class="masthead">
             <div class="container px-4 px-lg-5 h-100">

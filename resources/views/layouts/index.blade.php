@@ -1,206 +1,117 @@
 @extends('layouts.mainLayout')
 
 @section('content')
-<div class="page-container">
-    <!-- MAIN CONTENT-->
-    <div class="main-content">
-        <div class="container">
-
-            <div class="row justify-content-center">
-                <!-- إجمالي الراتب -->
-                <div class="col-sm-6 col-lg-3 mb-4">
-                    <div class="overview-item overview-item--c4 shadow-lg rounded-lg bg-light p-4">
-                        <div class="overview__inner">
-                            <div class="overview-box clearfix">
-                                <div class="icon text-center">
-                                    <i class="zmdi zmdi-money text-success" style="font-size: 36px;"></i>
-                                </div>
-                                <div class="text text-center">
-                                    <h2 class="text-success">{{ number_format($salary, 2) }} د.ا</h2>
-                                    <span class="text-muted">إجمالي الراتب</span>
-                                </div>
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <!-- Total Salary Card -->
+            <div class="col-sm-6 col-lg-3 mb-4 d-flex">
+                <div class="overview-item overview-item--c1 shadow-lg rounded-lg bg-white p-4 w-100">
+                    <div class="overview__inner text-center">
+                        <div class="overview-box">
+                            <div class="icon mb-3">
+                                <i class="zmdi zmdi-account-o text-primary" style="font-size: 40px;"></i>
+                            </div>
+                            <div class="text">
+                                <h2 class="text-primary">{{ number_format($salary, 2) }} د.ا</h2>
+                                <span class="text-muted">إجمالي الراتب</span>
                             </div>
                         </div>
                     </div>
-                    <!-- الرسم البياني تحت الكارد -->
-                    <div class="overview-chart mt-3">
-                        <canvas id="widgetChart1"></canvas>
-                    </div>
                 </div>
-
-                <!-- إجمالي الرصيد المتبقي -->
-                <div class="col-sm-6 col-lg-3 mb-4">
-                    <div class="overview-item overview-item--c5 shadow-lg rounded-lg bg-light p-4">
-                        <div class="overview__inner">
-                            <div class="overview-box clearfix">
-                                <div class="icon text-center">
-                                    <i class="zmdi zmdi-wallet text-warning" style="font-size: 36px;"></i>
-                                </div>
-                                <div class="text text-center">
-                                    <h2 class="text-warning">{{ number_format($remaining_balance, 2) }} د.ا</h2>
-                                    <span class="text-muted">إجمالي الرصيد المتبقي</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- الرسم البياني تحت الكارد -->
-                    <div class="overview-chart mt-3">
-                        <canvas id="widgetChart2"></canvas>
-                    </div>
-                </div>
-
-                <!-- إجمالي التوفير -->
-                <div class="col-sm-6 col-lg-3 mb-4">
-                    <div class="overview-item overview-item--c6 shadow-lg rounded-lg bg-light p-4">
-                        <div class="overview__inner">
-                            <div class="overview-box clearfix">
-                                <div class="icon text-center">
-                                    <i class="zmdi zmdi-save text-info" style="font-size: 36px;"></i>
-                                </div>
-                                <div class="text text-center">
-                                    <h2 class="text-info">{{ number_format($savings, 2) }} د.ا</h2>
-                                    <span class="text-muted">إجمالي التوفير</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- الرسم البياني تحت الكارد -->
-                    <div class="overview-chart mt-3">
-                        <canvas id="widgetChart3"></canvas>
-                    </div>
-                </div>
-
-                <!-- إجمالي المصروفات -->
-                <div class="col-sm-6 col-lg-3 mb-4">
-                    <div class="overview-item overview-item--c7 shadow-lg rounded-lg bg-light p-4">
-                        <div class="overview__inner">
-                            <div class="overview-box clearfix">
-                                <div class="icon text-center">
-                                    <i class="zmdi zmdi-shopping-cart text-danger" style="font-size: 36px;"></i>
-                                </div>
-                                <div class="text text-center">
-                                    <h2 class="text-danger">{{ number_format($expenses, 2) }} د.ا</h2>
-                                    <span class="text-muted">إجمالي المصروفات</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- الرسم البياني تحت الكارد -->
-                    <div class="overview-chart mt-3">
-                        <canvas id="widgetChart4"></canvas>
-                    </div>
-                </div>
-
             </div>
 
+            <!-- Total Expenses Card -->
+            <div class="col-sm-6 col-lg-3 mb-4 d-flex">
+                <div class="overview-item overview-item--c2 shadow-lg rounded-lg bg-white p-4 w-100">
+                    <div class="overview__inner text-center">
+                        <div class="overview-box">
+                            <div class="icon mb-3">
+                                <i class="zmdi zmdi-shopping-cart text-warning" style="font-size: 40px;"></i>
+                            </div>
+                            <div class="text">
+                                <h2 class="text-warning">{{ number_format($expenses, 2) }} د.ا</h2>
+                                <span class="text-muted">إجمالي المصروفات</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Savings Card -->
+            <div class="col-sm-6 col-lg-3 mb-4 d-flex">
+                <div class="overview-item overview-item--c3 shadow-lg rounded-lg bg-white p-4 w-100">
+                    <div class="overview__inner text-center">
+                        <div class="overview-box">
+                            <div class="icon mb-3">
+                                <i class="zmdi zmdi-calendar-note text-info" style="font-size: 40px;"></i>
+                            </div>
+                            <div class="text">
+                                <h2 class="text-info">{{ number_format($savings, 2) }} د.ا</h2>
+                                <span class="text-muted">إجمالي التوفير</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Remaining Balance Card -->
+            <div class="col-sm-6 col-lg-3 mb-4 d-flex">
+                <div class="overview-item overview-item--c4 shadow-lg rounded-lg bg-white p-4 w-100">
+                    <div class="overview__inner text-center">
+                        <div class="overview-box">
+                            <div class="icon mb-3">
+                                <i class="zmdi zmdi-money text-success" style="font-size: 40px;"></i>
+                            </div>
+                            <div class="text">
+                                <h2 class="text-success">{{ number_format($remaining_balance, 2) }} د.ا</h2>
+                                <span class="text-muted">إجمالي الرصيد المتبقي</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- Chart Representation of the Data -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-8">
+                <div class="card shadow-lg p-4">
+                    <h3 class="text-center mb-4">Financial Overview</h3>
+                    <canvas id="financialChart"></canvas>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <!-- END MAIN CONTENT-->
-    <!-- END PAGE CONTAINER-->
 </div>
 
-@endsection
+<script src="{{ asset('vendor/chartjs/Chart.bundle.min.js') }}"></script>
 
-@section('scripts')
 <script>
-    // رسم بياني لإجمالي الراتب
-    var ctx1 = document.getElementById('widgetChart1').getContext('2d');
-    var widgetChart1 = new Chart(ctx1, {
-        type: 'bar',
+    // Chart.js code to render the financial chart
+    var ctx = document.getElementById('financialChart').getContext('2d');
+    var financialChart = new Chart(ctx, {
+        type: 'bar', // Choose your chart type (bar, line, pie, etc.)
         data: {
-            labels: ['الراتب الشهري'],
+            labels: ['Salary', 'Expenses', 'Savings', 'Remaining Balance'],
             datasets: [{
-                label: 'الراتب',
-                data: [{{ $salary }}],
-                backgroundColor: '#4CAF50',
-                borderColor: '#388E3C',
+                label: 'Amounts (د.ا)',
+                data: [{{ $salary }}, {{ $expenses }}, {{ $savings }}, {{ $remaining_balance }}],
+                backgroundColor: ['rgba(38, 198, 218, 0.5)', 'rgba(255, 179, 0, 0.5)', 'rgba(0, 188, 212, 0.5)', 'rgba(76, 175, 80, 0.5)'],
+                borderColor: ['rgba(38, 198, 218, 1)', 'rgba(255, 179, 0, 1)', 'rgba(0, 188, 212, 1)', 'rgba(76, 175, 80, 1)'],
                 borderWidth: 1
             }]
         },
         options: {
+            responsive: true,
             scales: {
                 y: {
                     beginAtZero: true
                 }
-            },
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-
-    // رسم بياني لإجمالي الرصيد المتبقي
-    var ctx2 = document.getElementById('widgetChart2').getContext('2d');
-    var widgetChart2 = new Chart(ctx2, {
-        type: 'bar',
-        data: {
-            labels: ['الرصيد المتبقي'],
-            datasets: [{
-                label: 'الرصيد المتبقي',
-                data: [{{ $remaining_balance }}],
-                backgroundColor: '#FF9800',
-                borderColor: '#F57C00',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            },
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-
-    // رسم بياني لإجمالي التوفير
-    var ctx3 = document.getElementById('widgetChart3').getContext('2d');
-    var widgetChart3 = new Chart(ctx3, {
-        type: 'bar',
-        data: {
-            labels: ['إجمالي التوفير'],
-            datasets: [{
-                label: 'التوفير',
-                data: [{{ $savings }}],
-                backgroundColor: '#03A9F4',
-                borderColor: '#0288D1',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            },
-            responsive: true,
-            maintainAspectRatio: false
-        }
-    });
-
-    // رسم بياني لإجمالي المصروفات
-    var ctx4 = document.getElementById('widgetChart4').getContext('2d');
-    var widgetChart4 = new Chart(ctx4, {
-        type: 'bar',
-        data: {
-            labels: ['المصروفات'],
-            datasets: [{
-                label: 'المصروفات',
-                data: [{{ $expenses }}],
-                backgroundColor: '#F44336',
-                borderColor: '#D32F2F',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            },
-            responsive: true,
-            maintainAspectRatio: false
+            }
         }
     });
 </script>
+
 @endsection

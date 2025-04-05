@@ -40,18 +40,19 @@
 </head>
 
 <body class="animsition">
-
-    <div class="page-wrapper">
-        @if(Auth::check() && Auth::user()->hasVerifiedEmail())
-            @include('layouts.aside')
-            <div class="page-container">
-                @include('layouts.header')
-                <div class="main-content">
-                    <div class="section__content section__content--p30">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="table-responsive">
-                                    @yield('content')
+    @auth
+        @if(Auth::user()->hasVerifiedEmail())
+            <div class="page-wrapper">
+                @include('layouts.aside')
+                <div class="page-container">
+                    @include('layouts.header')
+                    <div class="main-content">
+                        <div class="section__content section__content--p30">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        @yield('content')
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -59,11 +60,19 @@
                 </div>
             </div>
         @else
-            @yield('content')
+            <!-- Display message if the email is not verified -->
+            <div class="alert alert-warning d-flex justify-content-center align-items-center" style="height: 100vh;">
+                <span>Please verify your email address to access the content.</span>
+            </div>
         @endif
-    </div>
-
+    @else
+        <!-- Display content for unauthenticated users -->
+        <div class="alert alert-warning d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <span>Please log in to access the content.</span>
+        </div>
+    @endauth
 </body>
+
 
 
     <!-- Jquery JS-->
@@ -82,7 +91,6 @@
     <script src="{{ asset('vendor/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('vendor/chartjs/Chart.bundle.min.js') }}"></script>
     <script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
-    {{-- <script src="{{ asset('js/speechRecognition.js') }}"></script> --}}
 
     <!-- Main JS-->
     <script src="{{ asset('js/main.js') }}"></script>

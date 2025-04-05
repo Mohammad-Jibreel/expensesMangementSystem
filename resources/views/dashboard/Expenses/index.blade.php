@@ -21,9 +21,7 @@
     @endif
 
     <a href="{{ route('expenses.create') }}" class="btn btn-primary btn-lg mt-3">Add New Expense</a>
-    <button id="start-record" type="button" class="px-4 py-2 bg-blue-600 text-black rounded-lg shadow-md">
-        🎤 Start Listening
-    </button>
+
 </div>
 
 <!-- Expenses Table -->

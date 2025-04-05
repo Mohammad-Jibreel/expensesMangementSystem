@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
@@ -26,32 +27,38 @@ class UserController extends Controller
       // Update the user's profile
       public function update(Request $request)
       {
+          $user = Auth::user();
+
           // Validate the input fields
           $request->validate([
               'name' => 'required|string|max:255',
-              'email' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
-              'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation for image
+              'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+              'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+              'password' => 'nullable|string|min:8|confirmed', // Note: requires password_confirmation
           ]);
-
-          $user = Auth::user();
 
           // Update name and email
           $user->name = $request->input('name');
           $user->email = $request->input('email');
 
+          // Handle password update if provided
+          if ($request->filled('password')) {
+              $user->password = Hash::make($request->input('password'));
+          }
+
           // Handle profile image upload
           if ($request->hasFile('profile_image')) {
-            // Delete old image if exists
-            if ($user->profile_image && Storage::exists('public/profile_images/' . $user->profile_image)) {
-                Storage::delete('public/profile_images/' . $user->profile_image);
-            }
+              // Delete old image if exists
+              if ($user->profile_image && Storage::exists('public/profile_images/' . $user->profile_image)) {
+                  Storage::delete('public/profile_images/' . $user->profile_image);
+              }
 
-            // Store new image and get the file name
-            $imageName = $request->file('profile_image')->store('profile_images', 'public');
-            $user->profile_image = basename($imageName); // Save the image filename in the database
-        }
+              // Store new image and get the file name
+              $imageName = $request->file('profile_image')->store('profile_images', 'public');
+              $user->profile_image = basename($imageName);
+          }
 
-          $user->save(); // Save the updated user details
+          $user->save();
 
           return redirect()->route('profile.show')->with('success', 'Profile updated successfully!');
       }
