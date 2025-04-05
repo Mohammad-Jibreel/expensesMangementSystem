@@ -1,8 +1,16 @@
-@extends('layouts.mainLayout')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Login & Register')</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 
-@section('content')
 <div class="d-lg-flex" style="height: 92vh; justify-content: center; align-items: center;">
-    <div class="col-md-7 form-container bg-white p-5 rounded shadow-lg">
+    <div class="">
         <h3 class="text-center text-primary mb-4">{{ __('Verify Your Email Address') }}</h3>
 
         {{-- Display success message --}}
@@ -29,4 +37,12 @@
         </div>
     </div>
 </div>
-@endsection
+
+
+
+
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

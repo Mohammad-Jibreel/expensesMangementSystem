@@ -61,15 +61,12 @@
             </div>
         @else
             <!-- Display message if the email is not verified -->
-            <div class="alert alert-warning d-flex justify-content-center align-items-center" style="height: 100vh;">
-                <span>Please verify your email address to access the content.</span>
-            </div>
+                @include('auth.verify')
         @endif
     @else
         <!-- Display content for unauthenticated users -->
-        <div class="alert alert-warning d-flex justify-content-center align-items-center" style="height: 100vh;">
-            <span>Please log in to access the content.</span>
-        </div>
+            @include('auth.verify')
+
     @endauth
 </body>
 

@@ -25,11 +25,10 @@
             color: white;
         }
         .btn-custom:hover {
-            color: var(--bs-btn-hover-color);
+    color: white;
     border-color: var(--bs-btn-hover-border-color);
-    background-color:  #ee8264;;
-
-        }
+    background-color: #ff3700;
+}
 
 
     </style>

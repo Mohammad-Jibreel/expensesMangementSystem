@@ -65,7 +65,7 @@
                         <p class="text-white-75 mb-5">
                             Take control of your finances effortlessly! Track your expenses, set savings goals, and manage budgets—all in one simple and intuitive platform. Start your journey towards smarter financial decisions today!
                         </p>
-                        <a class="btn btn-primary btn-xl" href="#about">Try it now!</a>
+                        <a class="btn btn-primary btn-xl" href="{{ route('login') }}">Try it now!</a>
                     </div>
                 </div>
             </div>
