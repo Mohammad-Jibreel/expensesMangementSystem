@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SavingGoal;
 use App\Models\Budget;
+use App\Models\Expense;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -115,7 +116,7 @@ public function store(Request $request)
             'budget_id' => $request->budget_id, // Update associated budget
         ]);
 
-        return redirect()->route('savings.index')->with('success', 'Savings goal updated successfully!');
+        SavingGoalController::updateSavings();
     }
 
     /**

@@ -76,3 +76,4 @@ Route::middleware('auth')->group(function () {
     Route::get('profile/edit', [UserController::class, 'edit'])->name('profile.edit'); // Edit profile
     Route::put('profile', [UserController::class, 'update'])->name('profile.update'); // Update profile
 });
+Route::get('/update-savings', [SavingGoalController::class, 'updateSavings'])->name('update.savings');

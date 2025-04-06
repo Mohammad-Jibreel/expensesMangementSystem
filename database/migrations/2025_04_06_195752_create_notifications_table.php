@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('notifiable_type');
             $table->timestamp('read_at')->nullable(); // Add the read_at column
             $table->text('data');
+            $table->string('type')->nullable();  // Add the 'type' column
             $table->timestamps();
         });
     }
