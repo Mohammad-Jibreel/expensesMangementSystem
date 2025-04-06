@@ -20,12 +20,6 @@ class DatabaseSeeder extends Seeder
             ExpenseSeeder::class,
             BudgetSeeder::class,
             ReportSeeder::class,
-            TransactionSeeder::class,
-            GroupSeeder::class,
-            GroupMemberSeeder::class,
-            GroupExpenseSeeder::class,
-            RewardSeeder::class,
-            ChallengeSeeder::class,
             FAQSeeder::class,
 
         ]);

@@ -25,13 +25,14 @@
 
         <div class="mb-3">
             <label for="budget_id" class="form-label">Select Budget</label>
-            <select class="form-control" name="budget_id" required>
-                @foreach(auth()->user()->budgets as $budget)
+            <select name="budget_id" required>
+                @foreach ($budgets as $budget)
                     <option value="{{ $budget->id }}">
-                        {{ date("F", mktime(0, 0, 0, $budget->month, 1)) }} - {{ $budget->year }} , {{ $budget->salary }}
+                        {{ $budget->month }}/{{ $budget->year }} ({{ $budget->salary }} د.ا)
                     </option>
                 @endforeach
             </select>
+
         </div>
 
         <button type="submit" class="btn btn-primary">Save Savings Goal</button>

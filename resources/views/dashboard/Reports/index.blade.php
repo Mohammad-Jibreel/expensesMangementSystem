@@ -9,7 +9,7 @@
         <div class="row">
             <!-- From Month & Year -->
             <div class="col-md-2">
-                <label for="from_month" class="form-label">From Month </label>
+                <label for="from_month" class="form-label"> Month </label>
                 <select name="from_month" id="from_month" class="form-control">
                     @foreach(range(1,12) as $m)
                         <option value="{{ $m }}" {{ $m == $fromMonth ? 'selected' : '' }}>
@@ -19,7 +19,7 @@
                 </select>
             </div>
             <div class="col-md-2">
-                <label for="from_year" class="form-label">From Year</label>
+                <label for="from_year" class="form-label"> Year</label>
                 <select name="from_year" id="from_year" class="form-control">
                     @foreach(range(Carbon\Carbon::now()->year-5, Carbon\Carbon::now()->year) as $y)
                         <option value="{{ $y }}" {{ $y == $fromYear ? 'selected' : '' }}>
@@ -30,26 +30,7 @@
             </div>
 
             <!-- To Month & Year -->
-            <div class="col-md-2">
-                <label for="to_month" class="form-label">To Month </label>
-                <select name="to_month" id="to_month" class="form-control">
-                    @foreach(range(1,12) as $m)
-                        <option value="{{ $m }}" {{ $m == $toMonth ? 'selected' : '' }}>
-                            {{ date("F", mktime(0,0,0,$m,1)) }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label for="to_year" class="form-label">To Year</label>
-                <select name="to_year" id="to_year" class="form-control">
-                    @foreach(range(Carbon\Carbon::now()->year-5, Carbon\Carbon::now()->year) as $y)
-                        <option value="{{ $y }}" {{ $y == $toYear ? 'selected' : '' }}>
-                            {{ $y }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+
 
             <!-- Category Filter -->
             <div class="col-md-3">
@@ -79,9 +60,7 @@
         <thead>
             <tr>
                 <th>Category</th>
-                <th>Total Expenses (Period One)</th>
-                <th>Total Expenses (Period Two)</th>
-                <th>Difference</th>
+                <th>Total Expenses </th>
 
             </tr>
         </thead>
@@ -95,10 +74,7 @@
                 <tr>
                     <td>{{ $current->category->category_name }}</td>
                     <td>${{ number_format($current->total, 2) }}</td>
-                    <td>${{ number_format($previousTotal, 2) }}</td>
-                    <td class="{{ $difference > 0 ? 'text-danger' : 'text-success' }}">
-                        {{ $difference > 0 ? '+' : '' }}${{ number_format($difference, 2) }}
-                    </td>
+
                 </tr>
             @endforeach
         </tbody>

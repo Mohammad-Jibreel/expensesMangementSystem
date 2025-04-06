@@ -102,24 +102,53 @@ class ExpenseController extends Controller
     }
 
     public function update(ExpenseRequest $request, Expense $expense)
-    {
+{
+    $this->authorizeExpense($expense);
 
-        $expense->update([
-            'category_id' => $request->category_id,
-            'amount' => $request->amount,
-            'date' => $request->date,
-            'description' => $request->description,
-        ]);
+    $oldAmount = $expense->amount;
 
-        return redirect()->route('expenses.index')->with('success', 'Expense updated successfully.');
+    $expense->update([
+        'category_id' => $request->category_id,
+        'amount' => $request->amount,
+        'date' => $request->date,
+        'description' => $request->description,
+    ]);
+
+    // Get related budget
+    $carbonDate = Carbon::parse($request->date);
+    $budget = Budget::where('user_id', auth()->id())
+                    ->where('year', $carbonDate->year)
+                    ->where('month', $carbonDate->month)
+                    ->first();
+
+    if ($budget) {
+        $budget->total_expenses = $budget->total_expenses - $oldAmount + $request->amount;
+        $budget->remaining_balance = $budget->salary - $budget->total_expenses;
+        $budget->save();
     }
+
+    return redirect()->route('expenses.index')->with('success', 'Expense updated successfully.');
+}
 
     public function destroy(Expense $expense)
-    {
-        $expense->delete();
+{
+    $this->authorizeExpense($expense);
 
-        return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully.');
+    $budget = Budget::where('user_id', auth()->id())
+                    ->whereYear('year', $expense->year)
+                    ->whereMonth('month', $expense->month)
+                    ->first();
+
+    if ($budget) {
+        $budget->total_expenses -= $expense->amount;
+        $budget->remaining_balance = $budget->salary - $budget->total_expenses;
+        $budget->save();
     }
+
+    $expense->delete();
+
+    return redirect()->route('expenses.index')->with('success', 'Expense deleted and budget updated!');
+}
 
 
     public function show(Expense $expense)
@@ -131,7 +160,7 @@ class ExpenseController extends Controller
 
     private function authorizeExpense(Expense $expense)
     {
-        if ($expense->userID !== auth()->id()) {
+        if ($expense->user_id !== auth()->id()) {
             abort(403, 'You are not authorized to access this expense.');
         }
     }

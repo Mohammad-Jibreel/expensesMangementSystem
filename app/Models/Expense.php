@@ -25,4 +25,5 @@ class Expense extends Model
     }
 
 
+
 }

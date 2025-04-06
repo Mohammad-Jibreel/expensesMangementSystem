@@ -64,53 +64,24 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function expenses()
-    {
-        return $this->hasMany(Expense::class);
-    }
+{
+    return $this->hasMany(Expense::class);
+}
 
-    public function transactions()
-    {
-        return $this->hasMany(Transaction::class);
-    }
+public function budgets()
+{
+    return $this->hasMany(Budget::class);
+}
 
-    public function budgets()
-    {
-        return $this->hasMany(Budget::class);
-    }
+public function reports()
+{
+    return $this->hasMany(Report::class);
+}
 
-    public function reports()
-    {
-        return $this->hasMany(Report::class);
-    }
+public function savingGoals()
+{
+    return $this->hasMany(SavingGoal::class);
+}
 
-    public function savingGoals()
-    {
-        return $this->hasMany(SavingGoal::class);
-    }
-
-    public function groups()
-    {
-        return $this->belongsToMany(Group::class, 'group_members');
-    }
-
-    public function groupExpenses()
-    {
-        return $this->hasMany(GroupExpense::class);
-    }
-
-    public function rewards()
-    {
-        return $this->hasMany(Reward::class);
-    }
-
-    public function challenges()
-    {
-        return $this->hasMany(Challenge::class);
-    }
-
-    public function savingsGoals()
-    {
-        return $this->hasMany(SavingsGoal::class);
-    }
 
 }

@@ -19,9 +19,9 @@ class SavingGoal extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Relationship with Budget (each goal belongs to a budget)
     public function budget()
     {
         return $this->belongsTo(Budget::class);
     }
+
 }

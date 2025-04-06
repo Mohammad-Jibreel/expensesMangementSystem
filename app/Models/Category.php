@@ -17,10 +17,11 @@ class Category extends Model
         return $this->hasMany(Expense::class);
     }
 
-    public function budgets()
+    public function reports()
     {
-        return $this->hasMany(Budget::class);
+        return $this->hasMany(Report::class);
     }
+
 
 
 }

@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('challenge_rewards', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('challenge_id')->constrained('challenges')->onDelete('cascade');
-            $table->foreignId('reward_id')->constrained('rewards')->onDelete('cascade');
+            $table->foreignId('notifiable_id');
+            $table->string('notifiable_type');
+            $table->timestamp('read_at')->nullable(); // Add the read_at column
+            $table->text('data');
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('challenge_rewards');
+        Schema::dropIfExists('notifications');
     }
 };
