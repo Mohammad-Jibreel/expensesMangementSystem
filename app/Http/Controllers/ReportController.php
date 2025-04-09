@@ -18,40 +18,40 @@ class ReportController extends Controller
         $userId = Auth::id();
         $fromMonth   = $request->input('from_month', Carbon::now()->month);
         $fromYear    = $request->input('from_year', Carbon::now()->year);
-        $toMonth     = $request->input('to_month', Carbon::now()->subMonth()->month);
-        $toYear      = $request->input('to_year', Carbon::now()->year);
         $category_id = $request->input('category_id', null);
-        $currentMonthExpenses = Expense::where('user_id', $userId)
-        ->when($category_id, function ($query, $category_id) {
-            return $query->where('category_id', $category_id);
-        })
-        ->whereMonth('created_at', $fromMonth)  // Make sure the `fromMonth` variable is used here
-        ->whereYear('created_at', $fromYear)    // Same for `fromYear`
-        ->groupBy('category_id')  // Group by category_id
-        ->selectRaw('category_id, SUM(amount) as total')  // Select the category and sum the amounts
-        ->get();
 
+        // Filter by month and year, and handle category filter
+        $currentMonthExpenses = Expense::where('user_id', $userId)
+            ->when($category_id, function ($query, $category_id) {
+                return $query->where('category_id', $category_id);
+            })
+            ->whereMonth('created_at', $fromMonth)
+            ->whereYear('created_at', $fromYear)
+            ->groupBy('category_id')
+            ->selectRaw('category_id, SUM(amount) as total')
+            ->get();
+
+        // For previous month's expenses
         $previousMonthExpenses = Expense::where('user_id', $userId)
             ->when($category_id, function ($query, $category_id) {
                 return $query->where('category_id', $category_id);
             })
-            ->whereMonth('created_at', $toMonth)
-            ->whereYear('created_at', $toYear)
+            ->whereMonth('created_at', $fromMonth - 1)  // Get previous month
+            ->whereYear('created_at', $fromYear)
             ->groupBy('category_id')
             ->selectRaw('category_id, SUM(amount) as total')
-            ->with('category')
             ->get();
-            $topExpenses = Expense::where('user_id', $userId)
-            ->with('category')
-            ->whereMonth('date', Carbon::now()->month)
-            ->whereYear('date', Carbon::now()->year)
+
+        // Fetch the top 5 expenses for the current period
+        $topExpenses = Expense::where('user_id', $userId)
+            ->when($category_id, function ($query, $category_id) {
+                return $query->where('category_id', $category_id);
+            })
+            ->whereMonth('created_at', $fromMonth)
+            ->whereYear('created_at', $fromYear)
             ->orderBy('amount', 'desc')
             ->take(5)
             ->get();
-
-
-
-
 
         return view('dashboard.reports.index', compact(
             'currentMonthExpenses',
@@ -59,11 +59,10 @@ class ReportController extends Controller
             'topExpenses',
             'fromMonth',
             'fromYear',
-            'toMonth',
-            'toYear',
             'category_id'
         ));
     }
+
 
     public function create()
     {

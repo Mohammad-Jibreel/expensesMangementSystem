@@ -9,19 +9,19 @@
         <div class="row">
             <!-- From Month & Year -->
             <div class="col-md-2">
-                <label for="from_month" class="form-label"> Month </label>
+                <label for="from_month" class="form-label">Month</label>
                 <select name="from_month" id="from_month" class="form-control">
-                    @foreach(range(1,12) as $m)
+                    @foreach(range(1, 12) as $m)
                         <option value="{{ $m }}" {{ $m == $fromMonth ? 'selected' : '' }}>
-                            {{ date("F", mktime(0,0,0,$m,1)) }}
+                            {{ date("F", mktime(0, 0, 0, $m, 1)) }}
                         </option>
                     @endforeach
                 </select>
             </div>
             <div class="col-md-2">
-                <label for="from_year" class="form-label"> Year</label>
+                <label for="from_year" class="form-label">Year</label>
                 <select name="from_year" id="from_year" class="form-control">
-                    @foreach(range(Carbon\Carbon::now()->year-5, Carbon\Carbon::now()->year) as $y)
+                    @foreach(range(Carbon\Carbon::now()->year - 5, Carbon\Carbon::now()->year) as $y)
                         <option value="{{ $y }}" {{ $y == $fromYear ? 'selected' : '' }}>
                             {{ $y }}
                         </option>
@@ -29,14 +29,11 @@
                 </select>
             </div>
 
-            <!-- To Month & Year -->
-
-
             <!-- Category Filter -->
             <div class="col-md-3">
                 <label for="category_id" class="form-label">Category</label>
                 <select name="category_id" id="category_id" class="form-control">
-                    <option value="">Choose Category Name</option>
+                    <option value="">All Categories</option>
                     @foreach(App\Models\Category::all() as $cat)
                         <option value="{{ $cat->id }}" {{ ($category_id == $cat->id) ? 'selected' : '' }}>
                             {{ $cat->category_name }}
@@ -45,23 +42,21 @@
                 </select>
             </div>
 
-            <div class=" d-flex align-items-end">
+            <div class="d-flex align-items-end">
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-filter"></i> Filter
                 </button>
             </div>
-
         </div>
     </form>
 
     <!-- Comparison Table -->
-    <h4>Comparison of expenses for the specified month</h4>
+    <h4>Comparison of Expenses for Selected Month</h4>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Category</th>
-                <th>Total Expenses </th>
-
+                <th>Total Expenses</th>
             </tr>
         </thead>
         <tbody>
@@ -74,7 +69,6 @@
                 <tr>
                     <td>{{ $current->category->category_name }}</td>
                     <td>${{ number_format($current->total, 2) }}</td>
-
                 </tr>
             @endforeach
         </tbody>
@@ -83,19 +77,18 @@
     <!-- Flow Chart for Top 5 Expenses -->
     <h4 class="mt-5">Top 5 Expenses Incurred During the Period (Flow Chart)</h4>
     @if($topExpenses->isEmpty())
-    <p class="text-danger">No expenses recorded for this period.</p>
-@else
-    <canvas id="topExpensesChart"></canvas>
-@endif
-
+        <p class="text-danger">No expenses recorded for this period.</p>
+    @else
+        <canvas id="topExpensesChart"></canvas>
+    @endif
 </div>
+
+@endsection
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("Script Loaded!");
-
     var canvas = document.getElementById('topExpensesChart');
     if (!canvas) {
         console.error("Chart canvas not found!");
@@ -106,16 +99,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Using JSON data sent from Laravel
     var labels = @json($topExpenses->map(function($expense) {
-            return $expense->category->category_name;
-        }));
+        return $expense->category->category_name;
+    }));
 
-        var data = @json($topExpenses->map(function($expense) {
-            return $expense->amount;
-        }));
-
-        console.log("Labels:", labels);
-        console.log("Data:", data);
-
+    var data = @json($topExpenses->map(function($expense) {
+        return $expense->amount;
+    }));
 
     if (labels.length === 0 || data.length === 0) {
         console.warn("No data available for chart.");
@@ -127,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function() {
         data: {
             labels: labels,
             datasets: [{
-                label: 'المبلغ المصروف ($)',
+                label: 'Expenses ($)',
                 data: data,
                 backgroundColor: 'rgba(75, 192, 192, 0.5)',
                 borderColor: 'rgba(75, 192, 192, 1)',
@@ -146,8 +135,3 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 @endsection
-
-@endsection
-
-
-
