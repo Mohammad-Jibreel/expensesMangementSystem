@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             BudgetSeeder::class,
             ReportSeeder::class,
             FAQSeeder::class,
+            SavingGoalsTableSeeder::class
 
         ]);
     }

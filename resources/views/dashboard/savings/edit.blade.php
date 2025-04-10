@@ -20,8 +20,18 @@
         </div>
 
         <div class="mb-3">
-            <label for="remaining_months" class="form-label">Remaining Months</label>
-            <input type="number" class="form-control" name="remaining_months" value="{{ old('remaining_months', $savingsGoal->remaining_months) }}" required>
+            <label for="monthly_income" class="form-label">Monthly Income</label>
+            <input type="number" step="0.01" class="form-control" name="monthly_income" value="{{ old('monthly_income', $savingsGoal->monthly_income) }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="saving_percentage" class="form-label">Saving Percentage</label>
+            <select name="saving_percentage" class="form-control" required>
+                <option value="5" {{ old('saving_percentage', $savingsGoal->saving_percentage) == 5 ? 'selected' : '' }}>5%</option>
+                <option value="10" {{ old('saving_percentage', $savingsGoal->saving_percentage) == 10 ? 'selected' : '' }}>10%</option>
+                <option value="15" {{ old('saving_percentage', $savingsGoal->saving_percentage) == 15 ? 'selected' : '' }}>15%</option>
+                <option value="20" {{ old('saving_percentage', $savingsGoal->saving_percentage) == 20 ? 'selected' : '' }}>20%</option>
+            </select>
         </div>
 
         <div class="mb-3">

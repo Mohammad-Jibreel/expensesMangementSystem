@@ -13,16 +13,19 @@ return new class extends Migration
     {
         Schema::create('saving_goals', function (Blueprint $table) {
             $table->id();
-            $table->string('goal_name'); // Name of the savings goal (e.g., "New Laptop")
-            $table->decimal('goal_amount', 10, 2); // Total goal amount (e.g., 1200)
-            $table->decimal('monthly_savings', 10, 2); // How much to save monthly (calculated based on goal amount and months)
-            $table->decimal('saved_amount', 10, 2)->default(0); // Amount already saved (starts from 0)
-            $table->integer('remaining_months'); // Number of months to complete the goal
-            $table->foreignId('budget_id')->constrained()->onDelete('cascade'); // Budget that this goal is associated with
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // User who owns the goal
-                $table->timestamps();
+            $table->string('goal_name'); // اسم الهدف (مثلاً: شراء لابتوب)
+            $table->decimal('goal_amount', 10, 2); // المبلغ المطلوب لتحقيق الهدف
+            $table->decimal('monthly_income', 10, 2); // الراتب الشهري
+            $table->integer('saving_percentage'); // نسبة التوفير الشهرية (مثلاً: 10)
+            $table->decimal('monthly_savings', 10, 2); // المبلغ الذي سيتم توفيره شهريًا (يحسب تلقائيًا)
+            $table->integer('remaining_months'); // عدد الأشهر المتوقع لتحقيق الهدف (يحسب تلقائيًا)
+            $table->decimal('saved_amount', 10, 2)->default(0); // المبلغ الذي تم توفيره حتى الآن
+            $table->foreignId('budget_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
