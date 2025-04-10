@@ -9,7 +9,10 @@
 
         <div class="mb-3">
             <label class="form-label">Amount</label>
-            <input type="number" name="amount" class="form-control" value="{{ $expense->amount }}" required>
+            <input type="number" name="amount" class="form-control @error('amount') is-invalid @enderror"  value="{{ $expense->amount }}" required>
+            @error('amount')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
         </div>
 
         <div class="mb-3">

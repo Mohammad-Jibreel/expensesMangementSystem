@@ -31,9 +31,10 @@
                 </li>
                 <li class="{{ request()->routeIs('savings.index') ? 'active' : '' }}">
                     <a href="{{ route('savings.index') }}">
-                        <i class="fas fa-wallet"></i> Savings Wallet
+                        <i class="fas fa-coins"></i> Savings Goals
                     </a>
                 </li>
+
                 <li class="{{ request()->routeIs('contact.create') ? 'active' : '' }}">
                     <a href="{{ route('contact.create') }}">
                         <i class="fas fa-headset"></i> Contact Support</a>

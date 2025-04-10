@@ -15,11 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('goal_name'); // اسم الهدف (مثلاً: شراء لابتوب)
             $table->decimal('goal_amount', 10, 2); // المبلغ المطلوب لتحقيق الهدف
-            $table->decimal('monthly_income', 10, 2); // الراتب الشهري
             $table->integer('saving_percentage'); // نسبة التوفير الشهرية (مثلاً: 10)
             $table->decimal('monthly_savings', 10, 2); // المبلغ الذي سيتم توفيره شهريًا (يحسب تلقائيًا)
             $table->integer('remaining_months'); // عدد الأشهر المتوقع لتحقيق الهدف (يحسب تلقائيًا)
-            $table->decimal('saved_amount', 10, 2)->default(0); // المبلغ الذي تم توفيره حتى الآن
             $table->foreignId('budget_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();

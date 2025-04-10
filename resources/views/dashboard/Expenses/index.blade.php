@@ -41,8 +41,8 @@
         @foreach($expenses as $expense)
         <tr>
             <td>{{ $expense->id  + 1 }}</td>
-            <td>{{ $expense->date }}</td>
             <td>{{ $expense->category->category_name }}</td>
+            <td>{{ $expense->date }}</td>
             <td>${{ number_format($expense->amount, 2) }}</td>
             <td>{{ $expense->description }}</td>
             <td>

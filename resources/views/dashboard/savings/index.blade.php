@@ -17,7 +17,6 @@
                 <th>Goal Amount</th>
                 <th>Remaining Months</th>
                 <th>Monthly Savings</th>
-                <th>Saved Amount</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -28,7 +27,6 @@
                     <td>${{ number_format($goal->goal_amount, 2) }}</td>
                     <td>{{ $goal->remaining_months }}</td>
                     <td>${{ number_format($goal->monthly_savings, 2) }}</td>
-                    <td>${{ number_format($goal->saved_amount, 2) }}</td>
                     <td>
                         <a href="{{ route('savings.edit', $goal->id) }}" class="btn btn-sm btn-warning">Edit</a>
                         <form action="{{ route('savings.destroy', $goal->id) }}" method="POST" class="d-inline">

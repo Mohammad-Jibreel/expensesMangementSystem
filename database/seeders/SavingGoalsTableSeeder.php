@@ -24,7 +24,6 @@ class SavingGoalsTableSeeder extends Seeder
                 'monthly_savings'   => 600.00 * (20 / 100), // 120.00
                 // حساب عدد الأشهر المتوقع لتحقيق الهدف باستخدام الدالة ceil للتقريب للأعلى
                 'remaining_months'  => (int) ceil(1000.00 / (600.00 * (20 / 100))),
-                'saved_amount'      => 0.00,
                 'budget_id'         => 1, // تأكد من وجود ميزانية بالـ id المطلوب
                 'user_id'           => 1, // تأكد من وجود مستخدم بالـ id المطلوب
             ],
@@ -35,7 +34,6 @@ class SavingGoalsTableSeeder extends Seeder
                 'saving_percentage' => 15, // نسبة 15%
                 'monthly_savings'   => 1500.00 * (15 / 100), // 225.00
                 'remaining_months'  => (int) ceil(5000.00 / (1500.00 * (15 / 100))),
-                'saved_amount'      => 0.00,
                 'budget_id'         => 2, // تأكد من وجود الميزانية بالـ id المطلوب
                 'user_id'           => 1,
             ],

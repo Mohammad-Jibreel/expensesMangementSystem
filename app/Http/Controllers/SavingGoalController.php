@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\SavingGoal;
 use App\Models\Budget;
 use App\Models\Expense;
+use App\Notifications\SavingReminder;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -15,9 +16,15 @@ class SavingGoalController extends Controller
     public function index()
     {
         $savingsGoals = SavingGoal::where('user_id', Auth::id())->get();
+        Auth::user()->unreadNotifications->markAsRead();
+
+    foreach ($savingsGoals as $goal) {
+        Auth::user()->notify(new SavingReminder($goal->goal_name));
+    }
         return view('dashboard.savings.index', compact('savingsGoals'));
     }
 
+    // Show the form for creating a new savings goal
     public function create()
     {
         $budgets = Budget::where('user_id', auth()->id())
@@ -28,32 +35,36 @@ class SavingGoalController extends Controller
         return view('dashboard.savings.create', compact('budgets'));
     }
 
+    // Store a newly created savings goal in the database
     public function store(Request $request)
     {
         $request->validate([
             'goal_name' => 'required|string|max:255',
             'goal_amount' => 'required|numeric|min:1',
-            'monthly_income' => 'required|numeric|min:1',
             'saving_percentage' => 'required|integer|in:5,10,15,20',
             'budget_id' => 'required|exists:budgets,id',
         ]);
 
-        $monthlySaving = $request->monthly_income * ($request->saving_percentage / 100);
+        // Calculate monthly savings and remaining months
+        $monthlySaving = $request->goal_amount * ($request->saving_percentage / 100);
         $remainingMonths = ceil($request->goal_amount / $monthlySaving);
 
+        // Get the selected budget
         $budget = Budget::find($request->budget_id);
+
+        // Check if the user can afford the savings goal
         $canAfford = ($budget->total_expenses + $monthlySaving) <= $budget->salary;
 
         if (!$canAfford) {
             return redirect()->back()->withErrors([
-                'goal_amount' => 'التوفير الشهري يتجاوز دخلك المتاح لهذا الشهر.'
+                'goal_amount' => 'The monthly savings exceed your available income for this month.'
             ])->withInput();
         }
 
+        // Create the savings goal
         SavingGoal::create([
             'goal_name' => $request->goal_name,
             'goal_amount' => $request->goal_amount,
-            'monthly_income' => $request->monthly_income,
             'saving_percentage' => $request->saving_percentage,
             'monthly_savings' => $monthlySaving,
             'remaining_months' => $remainingMonths,
@@ -62,93 +73,70 @@ class SavingGoalController extends Controller
             'user_id' => auth()->id(),
         ]);
 
-        return redirect()->route('savings.index')->with('success', 'تمت إضافة هدف التوفير بنجاح!');
+        return redirect()->route('savings.index')->with('success', 'Saving goal added successfully!');
     }
 
+    // Show the form for editing a savings goal
     public function edit($id)
     {
         $savingsGoal = SavingGoal::find($id);
 
         if (!$savingsGoal) {
-            return redirect()->route('savings.index')->with('error', 'هدف التوفير غير موجود!');
+            return redirect()->route('savings.index')->with('error', 'Saving goal not found!');
         }
 
         $budgets = Budget::where('user_id', auth()->id())->get();
         return view('dashboard.savings.edit', compact('savingsGoal', 'budgets'));
     }
 
+    // Update the specified savings goal in the database
     public function update(Request $request, $id)
     {
         $savingsGoal = SavingGoal::find($id);
 
         if (!$savingsGoal) {
-            return redirect()->route('savings.index')->with('error', 'هدف التوفير غير موجود!');
+            return redirect()->route('savings.index')->with('error', 'Saving goal not found!');
         }
 
         $request->validate([
             'goal_name' => 'required|string|max:255',
             'goal_amount' => 'required|numeric|min:1',
-            'monthly_income' => 'required|numeric|min:1',
             'saving_percentage' => 'required|integer|in:5,10,15,20',
             'budget_id' => 'required|exists:budgets,id',
         ]);
 
-        $monthlySaving = $request->monthly_income * ($request->saving_percentage / 100);
+        // Calculate monthly savings and remaining months
+        $monthlySaving = $request->goal_amount * ($request->saving_percentage / 100);
         $remainingMonths = ceil($request->goal_amount / $monthlySaving);
 
+        // Update the savings goal
         $savingsGoal->update([
             'goal_name' => $request->goal_name,
             'goal_amount' => $request->goal_amount,
-            'monthly_income' => $request->monthly_income,
             'saving_percentage' => $request->saving_percentage,
             'monthly_savings' => $monthlySaving,
             'remaining_months' => $remainingMonths,
             'budget_id' => $request->budget_id,
         ]);
 
-        return redirect()->route('savings.index')->with('success', 'تم تحديث هدف التوفير بنجاح!');
+        return redirect()->route('savings.index')->with('success', 'Saving goal updated successfully!');
     }
 
-    public function updateSavings()
-    {
-        $goals = SavingGoal::where('user_id', Auth::id())->get();
-        $totalExpenses = Expense::where('user_id', Auth::id())->sum('amount');
 
-        foreach ($goals as $goal) {
-            $remainingSalary = $goal->monthly_income - $totalExpenses;
 
-            if ($remainingSalary > 0) {
-                $goal->update(['saved_amount' => $remainingSalary]);
-
-                if ($goal->remaining_months <= 3 && $goal->saved_amount > 0) {
-                    $message = "رائع! تبقى لك {$goal->remaining_months} أشهر للوصول إلى هدفك، وقد ادخرت " .
-                               number_format($goal->saved_amount, 2) . " د.ا من أصل " .
-                               number_format($goal->goal_amount, 2) . " د.ا 💪";
-
-                    Auth::user()->notify(new \App\Notifications\CustomGoalNotification($message));
-                }
-
-                if ($goal->saved_amount >= $goal->goal_amount) {
-                    Auth::user()->notify(new \App\Notifications\SavingGoalAchieved());
-                }
-            }
-        }
-
-        return redirect()->route('savings.index')->with('success', 'تم تحديث المدخرات بنجاح!');
-    }
-
+    // Delete the specified savings goal
     public function destroy($id)
     {
         $savingsGoal = SavingGoal::find($id);
 
         if (!$savingsGoal) {
-            return redirect()->route('savings.index')->with('error', 'هدف التوفير غير موجود!');
+            return redirect()->route('savings.index')->with('error', 'Saving goal not found!');
         }
 
         if ($savingsGoal->delete()) {
-            return redirect()->route('savings.index')->with('success', 'تم حذف هدف التوفير بنجاح!');
+            return redirect()->route('savings.index')->with('success', 'Saving goal deleted successfully!');
         } else {
-            return redirect()->route('savings.index')->with('error', 'حدث خطأ أثناء حذف هدف التوفير!');
+            return redirect()->route('savings.index')->with('error', 'An error occurred while deleting the saving goal!');
         }
     }
 

@@ -20,6 +20,7 @@ class ReportController extends Controller
         $fromYear    = $request->input('from_year', Carbon::now()->year);
         $category_id = $request->input('category_id', null);
 
+
         // Filter by month and year, and handle category filter
         $currentMonthExpenses = Expense::where('user_id', $userId)
             ->when($category_id, function ($query, $category_id) {
@@ -31,31 +32,16 @@ class ReportController extends Controller
             ->selectRaw('category_id, SUM(amount) as total')
             ->get();
 
-        // For previous month's expenses
-        $previousMonthExpenses = Expense::where('user_id', $userId)
-            ->when($category_id, function ($query, $category_id) {
-                return $query->where('category_id', $category_id);
-            })
-            ->whereMonth('created_at', $fromMonth - 1)  // Get previous month
-            ->whereYear('created_at', $fromYear)
-            ->groupBy('category_id')
-            ->selectRaw('category_id, SUM(amount) as total')
-            ->get();
 
         // Fetch the top 5 expenses for the current period
         $topExpenses = Expense::where('user_id', $userId)
-            ->when($category_id, function ($query, $category_id) {
-                return $query->where('category_id', $category_id);
-            })
-            ->whereMonth('created_at', $fromMonth)
-            ->whereYear('created_at', $fromYear)
-            ->orderBy('amount', 'desc')
-            ->take(5)
-            ->get();
+        ->orderBy('amount', 'desc') // Order by the amount, descending
+        ->take(5) // Limit to top 5 expenses
+        ->get();
+
 
         return view('dashboard.reports.index', compact(
             'currentMonthExpenses',
-            'previousMonthExpenses',
             'topExpenses',
             'fromMonth',
             'fromYear',

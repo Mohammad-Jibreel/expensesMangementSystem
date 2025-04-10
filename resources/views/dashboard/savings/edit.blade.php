@@ -20,11 +20,6 @@
         </div>
 
         <div class="mb-3">
-            <label for="monthly_income" class="form-label">Monthly Income</label>
-            <input type="number" step="0.01" class="form-control" name="monthly_income" value="{{ old('monthly_income', $savingsGoal->monthly_income) }}" required>
-        </div>
-
-        <div class="mb-3">
             <label for="saving_percentage" class="form-label">Saving Percentage</label>
             <select name="saving_percentage" class="form-control" required>
                 <option value="5" {{ old('saving_percentage', $savingsGoal->saving_percentage) == 5 ? 'selected' : '' }}>5%</option>
@@ -47,6 +42,7 @@
 
         <button type="submit" class="btn btn-primary">Update Savings Goal</button>
     </form>
+
 </div>
 
 @endsection

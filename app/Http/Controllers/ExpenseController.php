@@ -38,8 +38,7 @@ class ExpenseController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        // Parse the date input (or use the current date if not provided)
-        $carbonDate = Carbon::parse($request->date ?: now());  // Defaults to current date if 'date' is null
+        $carbonDate = Carbon::parse($request->date ?: now());
 
         // Extract the year and month from the date
         $year = $carbonDate->year;
@@ -50,25 +49,27 @@ class ExpenseController extends Controller
                         ->where('year', $year)
                         ->where('month', $month)->first();
 
+        // If no budget is found, return an error
         if (!$budget) {
-            // If there is no budget for the user for the specified month, create a new one
-            $budget = Budget::create([
-                'user_id' => auth()->id(),
-                'salary' => 0, // Initially set to 0, you can update it manually later
-                'year' => $year,
-                'month' => $month,
-            ]);
+            return redirect()->back()->withErrors(['amount' => 'There is no budget for the selected month!']);
         }
 
+        // If the salary is not set for the selected month, return an error
+        if ($budget->salary == 0) {
+            return redirect()->back()->withErrors(['amount' => 'Salary for the selected month has not been set!']);
+        }
+
+        // Validate the expense amount
         if ($request->amount <= 0) {
             return redirect()->back()->withErrors(['amount' => 'Expense amount must be greater than zero!']);
         }
 
+        // Check if the expense exceeds the available balance in the budget
         if (($budget->total_expenses + $request->amount) > $budget->salary) {
             return redirect()->back()->withErrors(['amount' => 'Expense exceeds available balance for this month!']);
         }
 
-        // Add the expense to the expense table only if validation passes
+        // Add the expense to the expense table
         $expense = Expense::create([
             'user_id' => auth()->id(),
             'amount' => $request->amount,
@@ -77,11 +78,10 @@ class ExpenseController extends Controller
             'category_id' => $request->category_id,
         ]);
 
-
         // Update the total expenses in the budget table
         $budget->total_expenses += $expense->amount;
 
-        // Update the remaining balance
+        // Update the remaining balance in the budget
         $budget->remaining_balance = $budget->salary - $budget->total_expenses;
 
         // Update the budget (not create)
@@ -94,6 +94,7 @@ class ExpenseController extends Controller
 
 
 
+
     public function edit(Expense $expense)
     {
 
@@ -102,51 +103,64 @@ class ExpenseController extends Controller
     }
 
     public function update(ExpenseRequest $request, Expense $expense)
-{
-    $this->authorizeExpense($expense);
+    {
+        $this->authorizeExpense($expense);
 
-    $oldAmount = $expense->amount;
+        $oldAmount = $expense->amount;
 
-    $expense->update([
-        'category_id' => $request->category_id,
-        'amount' => $request->amount,
-        'date' => $request->date,
-        'description' => $request->description,
-    ]);
+        // Parse the date from the request
+        $carbonDate = Carbon::parse($request->date);
 
-    // Get related budget
-    $carbonDate = Carbon::parse($request->date);
-    $budget = Budget::where('user_id', auth()->id())
-                    ->where('year', $carbonDate->year)
-                    ->where('month', $carbonDate->month)
-                    ->first();
+        // Find the related budget for the selected month and year
+        $budget = Budget::where('user_id', auth()->id())
+                        ->where('year', $carbonDate->year)
+                        ->where('month', $carbonDate->month)
+                        ->first();
 
-    if ($budget) {
+        // If no budget exists for the selected month, return an error
+        if (!$budget) {
+            return redirect()->back()->withErrors(['amount' => 'There is no budget for the selected month and year!']);
+        }
+
+        // Update the expense
+        $expense->update([
+            'category_id' => $request->category_id,
+            'amount' => $request->amount,
+            'date' => $request->date,
+            'description' => $request->description,
+        ]);
+
+        // Recalculate the total expenses for the budget
         $budget->total_expenses = $budget->total_expenses - $oldAmount + $request->amount;
+
+        // Update the remaining balance in the budget
         $budget->remaining_balance = $budget->salary - $budget->total_expenses;
+
+        // Save the updated budget
         $budget->save();
+
+        // Redirect with success message
+        return redirect()->route('expenses.index')->with('success', 'Expense updated successfully.');
     }
 
-    return redirect()->route('expenses.index')->with('success', 'Expense updated successfully.');
-}
+
 
     public function destroy(Expense $expense)
 {
     $this->authorizeExpense($expense);
-
+    $carbonDate = Carbon::parse($expense->date);
     $budget = Budget::where('user_id', auth()->id())
-                    ->whereYear('year', $expense->year)
-                    ->whereMonth('month', $expense->month)
-                    ->first();
+    ->where('year', $carbonDate->year)
+    ->where('month', $carbonDate->month)
+    ->first();
+
 
     if ($budget) {
         $budget->total_expenses -= $expense->amount;
         $budget->remaining_balance = $budget->salary - $budget->total_expenses;
         $budget->save();
     }
-
     $expense->delete();
-
     return redirect()->route('expenses.index')->with('success', 'Expense deleted and budget updated!');
 }
 

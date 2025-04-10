@@ -19,11 +19,6 @@
         </div>
 
         <div class="mb-3">
-            <label for="monthly_income" class="form-label">Monthly Income</label>
-            <input type="number" step="0.01" class="form-control" name="monthly_income" required>
-        </div>
-
-        <div class="mb-3">
             <label for="saving_percentage" class="form-label">Saving Percentage</label>
             <select name="saving_percentage" class="form-control" required>
                 <option value="5">5%</option>
@@ -46,6 +41,7 @@
 
         <button type="submit" class="btn btn-primary">Save Savings Goal</button>
     </form>
+
 </div>
 
 @endsection

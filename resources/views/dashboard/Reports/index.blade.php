@@ -12,7 +12,7 @@
                 <label for="from_month" class="form-label">Month</label>
                 <select name="from_month" id="from_month" class="form-control">
                     @foreach(range(1, 12) as $m)
-                        <option value="{{ $m }}" {{ $m == $fromMonth ? 'selected' : '' }}>
+                        <option value="{{ $m }}" {{ $m == (request()->get('from_month', date('n'))) ? 'selected' : '' }}>
                             {{ date("F", mktime(0, 0, 0, $m, 1)) }}
                         </option>
                     @endforeach
@@ -22,7 +22,7 @@
                 <label for="from_year" class="form-label">Year</label>
                 <select name="from_year" id="from_year" class="form-control">
                     @foreach(range(Carbon\Carbon::now()->year - 5, Carbon\Carbon::now()->year) as $y)
-                        <option value="{{ $y }}" {{ $y == $fromYear ? 'selected' : '' }}>
+                        <option value="{{ $y }}" {{ $y == (request()->get('from_year', date('Y'))) ? 'selected' : '' }}>
                             {{ $y }}
                         </option>
                     @endforeach
@@ -51,6 +51,13 @@
     </form>
 
     <!-- Comparison Table -->
+    @if($currentMonthExpenses->isEmpty())
+    <!-- No Expenses Message -->
+    <div class="alert alert-warning" role="alert">
+        <strong>No expenses recorded for this period.</strong>
+    </div>
+@else
+    <!-- Expenses Table -->
     <h4>Comparison of Expenses for Selected Month</h4>
     <table class="table table-striped">
         <thead>
@@ -61,11 +68,6 @@
         </thead>
         <tbody>
             @foreach ($currentMonthExpenses as $current)
-                @php
-                    $previous = $previousMonthExpenses->where('category_id', $current->category_id)->first();
-                    $previousTotal = $previous ? $previous->total : 0;
-                    $difference = $current->total - $previousTotal;
-                @endphp
                 <tr>
                     <td>{{ $current->category->category_name }}</td>
                     <td>${{ number_format($current->total, 2) }}</td>
@@ -73,14 +75,22 @@
             @endforeach
         </tbody>
     </table>
+@endif
 
     <!-- Flow Chart for Top 5 Expenses -->
-    <h4 class="mt-5">Top 5 Expenses Incurred During the Period (Flow Chart)</h4>
-    @if($topExpenses->isEmpty())
-        <p class="text-danger">No expenses recorded for this period.</p>
-    @else
+    <div class="mt-5">
+
+        @if($topExpenses->isEmpty())
+        <h4 class="mb-2">Top 5 Expenses Incurred During the Period (Flow Chart)</h4>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>No expenses recorded for this period.</strong>
+        </div>
+
+        @else
         <canvas id="topExpensesChart"></canvas>
-    @endif
+        @endif
+    </div>
 </div>
 
 @endsection
@@ -135,3 +145,4 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 @endsection
+
