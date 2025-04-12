@@ -16,13 +16,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
-            CategorySeeder::class,
-            ExpenseSeeder::class,
-            BudgetSeeder::class,
-            ReportSeeder::class,
             FAQSeeder::class,
-            SavingGoalsTableSeeder::class
-
         ]);
     }
 }

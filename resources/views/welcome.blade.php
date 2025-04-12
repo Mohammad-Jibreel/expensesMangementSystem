@@ -32,8 +32,8 @@
                         <!-- Check if user is authenticated -->
                         @if(Auth::check())
                             <!-- If authenticated, show profile and logout -->
-                            <li class="nav-item"><a class="nav-link" href="{{ route('dashboard.index') }}">Dashboard</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ route('profile.show') }}">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
                             <li class="nav-item">
                                 <!-- Logout form -->
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
